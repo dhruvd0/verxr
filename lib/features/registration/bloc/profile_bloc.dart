@@ -1,5 +1,3 @@
-import 'dart:async';
-import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
@@ -16,13 +14,16 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc() : super(ProfileInitial()) {
     on<ChangeProfile>(_onChangeProfile);
     on<EditNewProfile>(
-      (event, emit) {
-        emit(EditProfileState(Profile.fromMap(event.userType, const {})));
-      },
+      _onEditNewProfile,
     );
   }
 
-  FutureOr<void> _onChangeProfile(
+  void _onEditNewProfile(event, Emitter emit) {
+    emit(EditProfileState(Profile.fromMap(event.userType, const {})));
+    assert(state is EditProfileState);
+  }
+
+  void _onChangeProfile(
     ChangeProfile changeProfileEvent,
     Emitter emit,
   ) {

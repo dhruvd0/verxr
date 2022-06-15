@@ -23,15 +23,11 @@ abstract class Profile extends Equatable {
       case UserType.individual:
         return IndividualProfile.fromMap(map);
       case UserType.group:
-        GroupProfile.fromMap(map);
-        break;
-      case UserType.institution:
-          InstitutionProfile.fromMap(map);
-        break;
-   
-    }
+        return GroupProfile.fromMap(map);
 
-    return IndividualProfile.fromMap(map);
+      case UserType.institution:
+        return InstitutionProfile.fromMap(map);
+    }
   }
 
   /// Email

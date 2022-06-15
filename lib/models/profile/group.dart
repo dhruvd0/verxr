@@ -37,6 +37,7 @@ class GroupProfile extends Profile {
 
   @override
   List<Object> get props => super.props..addAll([board]);
+
   ///
   @override
   factory GroupProfile.fromMap(Map<String, dynamic> map) {
@@ -46,8 +47,7 @@ class GroupProfile extends Profile {
       email: (map['email'] ?? '') as String,
       phone: (map['phone'] ?? '') as String,
       uid: (map['uid'] ?? '') as String,
-     board: (map['board'] ?? '') as String,
-
+      board: (map['board'] ?? '') as String,
     );
   }
   @override

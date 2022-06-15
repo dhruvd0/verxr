@@ -29,4 +29,3 @@ class ProfileErrorState extends ProfileState {
   final String errorMessage;
   ProfileErrorState(this.errorMessage);
 }
-
