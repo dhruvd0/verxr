@@ -10,11 +10,9 @@ void main() async {
 //  runApp(const MyApp());
 }
 
-
-
 /// TODO: registration bloc setup
 /// TODO: firebase phone auth
 /// TODO: Theme setup
 ///TODO: Firebase Config/ Mock
 /// TODO: Integration Test Setup
-/// 
+///

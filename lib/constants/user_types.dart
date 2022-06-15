@@ -1,9 +1,11 @@
-/// 
-enum UserType{
+///
+enum UserType {
   ///
   individual,
+
   ///
   group,
+
   ///
   institution,
 }

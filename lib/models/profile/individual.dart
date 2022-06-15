@@ -71,8 +71,8 @@ class IndividualProfile extends Profile {
       'phone': phone,
       'uid': uid,
       'dob': dob,
-      'middleName':middleName,
-      'lastName':lastName,
+      'middleName': middleName,
+      'lastName': lastName,
     };
   }
 

@@ -10,4 +10,5 @@ enum ProfileFields {
   lastName,
   middleName,
   dob,
+  board,
 }

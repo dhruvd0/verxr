@@ -1,5 +1,3 @@
-
-
 import 'package:equatable/equatable.dart';
 
 import 'package:verxr/constants/user_types.dart';
@@ -40,12 +38,16 @@ abstract class Profile extends Equatable {
 
   /// FirstName
   final String firstName;
+
   ///
   final String password;
+
   ///
   final String phone;
+
   /// Firebase Auth UID
   final String uid;
+
   /// Defines which type of profile is extended from [Profile]
   final UserType userType;
 
@@ -59,8 +61,10 @@ abstract class Profile extends Equatable {
       uid,
     ];
   }
+
   ///
   Profile copyWith();
+
   ///
   Map<String, dynamic> toMap();
 }
