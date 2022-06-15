@@ -37,7 +37,19 @@ class GroupProfile extends Profile {
 
   @override
   List<Object> get props => super.props..addAll([board]);
+  ///
+  @override
+  factory GroupProfile.fromMap(Map<String, dynamic> map) {
+    return GroupProfile(
+      firstName: (map['firstName'] ?? '') as String,
+      password: (map['password'] ?? '') as String,
+      email: (map['email'] ?? '') as String,
+      phone: (map['phone'] ?? '') as String,
+      uid: (map['uid'] ?? '') as String,
+     board: (map['board'] ?? '') as String,
 
+    );
+  }
   @override
   Map<String, dynamic> toMap() {
     return <String, dynamic>{

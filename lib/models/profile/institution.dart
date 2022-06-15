@@ -33,6 +33,22 @@ class InstitutionProfile extends Profile {
   ///
   final String telephone;
 
+  ///
+  @override
+  factory InstitutionProfile.fromMap(Map<String, dynamic> map) {
+    return InstitutionProfile(
+      firstName: (map['firstName'] ?? '') as String,
+      password: (map['password'] ?? '') as String,
+      email: (map['email'] ?? '') as String,
+      phone: (map['phone'] ?? '') as String,
+      uid: (map['uid'] ?? '') as String,
+      board: (map['board'] ?? '') as String,
+      country: (map['country'] ?? '') as String,
+      state: (map['state'] ?? '') as String,
+      telephone: (map['telephone'] ?? '') as String,
+      pincode: (map['pincode'] ?? '') as String,
+    );
+  }
   @override
   InstitutionProfile copyWith({
     String? firstName,

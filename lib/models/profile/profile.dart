@@ -1,7 +1,9 @@
 import 'package:equatable/equatable.dart';
 
 import 'package:verxr/constants/user_types.dart';
+import 'package:verxr/models/profile/group.dart';
 import 'package:verxr/models/profile/individual.dart';
+import 'package:verxr/models/profile/institution.dart';
 
 /// Generic Profile class for Individual, Group and Institution
 abstract class Profile extends Equatable {
@@ -21,13 +23,12 @@ abstract class Profile extends Equatable {
       case UserType.individual:
         return IndividualProfile.fromMap(map);
       case UserType.group:
-        // TODO: Handle this case.
+        GroupProfile.fromMap(map);
         break;
       case UserType.institution:
-        // TODO: Handle this case.
+          InstitutionProfile.fromMap(map);
         break;
-      default:
-        return IndividualProfile.fromMap(map);
+   
     }
 
     return IndividualProfile.fromMap(map);

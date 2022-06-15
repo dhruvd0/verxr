@@ -11,4 +11,8 @@ enum ProfileFields {
   middleName,
   dob,
   board,
+  country,
+  state,
+  pincode,
+  telephone,
 }
