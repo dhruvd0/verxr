@@ -6,21 +6,23 @@ abstract class ProfileState {}
 
 class ProfileInitial extends ProfileState {}
 
-abstract class AuthenticatedProfileState extends ProfileState {
-  final Profile profile;
-  AuthenticatedProfileState(this.profile);
+class AuthenticatedProfileState extends ProfileState {
+  final String uid;
+  AuthenticatedProfileState(this.uid);
 }
 
 /// State for Registration Page
-class EditProfileState extends AuthenticatedProfileState {
+class EditProfileState extends ProfileState {
+  final Profile profile;
   EditProfileState(
-    super.profile,
+    this.profile,
   );
 }
 
 /// State which has a registered profile, to be used in entire app
-class FetchedProfileState extends AuthenticatedProfileState {
-  FetchedProfileState(super.profile);
+class FetchedProfileState extends ProfileState {
+  final Profile profile;
+  FetchedProfileState(this.profile);
 }
 
 class ProfileLoadingState extends ProfileState {}

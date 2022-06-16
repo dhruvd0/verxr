@@ -5,7 +5,6 @@ class AuthState {}
 
 class LoadingAuthState extends AuthState {}
 
-
 class CodeSentState extends AuthState {
   final String verificationId;
   CodeSentState(
@@ -18,6 +17,6 @@ class SuccessAuthState extends AuthState {}
 class LogOutAuthState extends AuthState {}
 
 class FailureAuthState extends AuthState {
-  final error;
+  final Object error;
   FailureAuthState(this.error);
 }

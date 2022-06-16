@@ -7,12 +7,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:15091281628:android:57833ce6e4397a1c0d4e19",
+        "mobilesdk_app_id": "1:15091281628:android:9d014ab02430fc900d4e19",
         "android_client_info": {
-          "package_name": "com.example.verxr"
+          "package_name": "verxr.app"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "15091281628-7nuloj7c2tocfdcp1ojq3j6tor0h1g5i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "verxr.app",
+            "certificate_hash": "0b029a90a083c60bf97696097d6d7a7cd79dfbd2"
+          }
+        },
         {
           "client_id": "15091281628-0vn6jmq7d6fa0tq0uo8c5t3hd3denlna.apps.googleusercontent.com",
           "client_type": 3

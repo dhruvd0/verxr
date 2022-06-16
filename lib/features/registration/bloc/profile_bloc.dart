@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
@@ -16,6 +18,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     on<EditNewProfile>(
       _onEditNewProfile,
     );
+    on<GetProfileEvent>(_onGetProfile);
   }
 
   void _onEditNewProfile(event, Emitter emit) {
@@ -35,5 +38,15 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     map[key] = changeProfileEvent.value;
     profile = Profile.fromMap(profile.userType, map);
     emit(EditProfileState(profile));
+  }
+
+  FutureOr<void> _onGetProfile(
+    GetProfileEvent event,
+    Emitter<ProfileState> emit,
+  ) {
+    /// TODO: call get profile api here
+    ///
+
+    emit(AuthenticatedProfileState(event.uid));
   }
 }

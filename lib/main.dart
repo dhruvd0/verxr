@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,7 +6,9 @@ import 'package:verxr/config/router.dart';
 import 'package:verxr/config/theme.dart';
 import 'package:verxr/features/auth/auth_bloc.dart';
 import 'package:verxr/features/auth/widgets/phone_auth/phone_auth.dart';
+import 'package:verxr/features/home/widgets/home_page.dart';
 import 'package:verxr/features/registration/bloc/profile_bloc.dart';
+import 'package:verxr/features/registration/widgets/registration_page.dart';
 import 'package:verxr/firebase_options.dart';
 
 void main() async {
@@ -69,13 +72,32 @@ class _SplashState extends State<Splash> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AuthBloc, AuthState>(
-      listener: (context, state) {
-        if (state is LogOutAuthState) {
-          Navigator.pushReplacementNamed(context, PhoneAuthPage.routeName);
+    return BlocListener<ProfileBloc, ProfileState>(
+      listener: (context, profileState) {
+        if (profileState is FetchedProfileState) {
+          Navigator.pushReplacementNamed(
+            context,
+            HomePage.routeName,
+          );
+        } else if (profileState is AuthenticatedProfileState) {
+          Navigator.pushReplacementNamed(
+            context,
+            RegistrationPage.routeName,
+          );
         }
       },
-      child: Container(),
+      child: BlocListener<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state is LogOutAuthState) {
+            Navigator.pushReplacementNamed(context, PhoneAuthPage.routeName);
+          } else if (state is SuccessAuthState) {
+            BlocProvider.of<ProfileBloc>(context).add(
+              GetProfileEvent(FirebaseAuth.instance.currentUser!.uid),
+            );
+          }
+        },
+        child: Container(),
+      ),
     );
   }
 }

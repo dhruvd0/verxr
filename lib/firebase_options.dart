@@ -15,6 +15,7 @@ import 'package:flutter/foundation.dart'
 /// );
 /// ```
 class DefaultFirebaseOptions {
+  // ignore: long-method
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
       throw UnsupportedError(
@@ -54,7 +55,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDuR3HiPSWzDAU6LacEKEpFCO9DbfVkdp0',
-    appId: '1:15091281628:android:57833ce6e4397a1c0d4e19',
+    appId: '1:15091281628:android:9d014ab02430fc900d4e19',
     messagingSenderId: '15091281628',
     projectId: 'verxr-app-database',
     storageBucket: 'verxr-app-database.appspot.com',

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:verxr/config/theme.dart';
 
 class RoundedTextButton extends StatelessWidget {
-  RoundedTextButton({
+  const RoundedTextButton({
     Key? key,
     required this.text,
     required this.onTap,
@@ -18,12 +18,13 @@ class RoundedTextButton extends StatelessWidget {
       child: Container(
         height: 53,
         width: MediaQuery.of(context).size.width,
-        margin: EdgeInsets.all(20),
-        padding: EdgeInsets.only(left: 10),
+        margin: const EdgeInsets.all(20),
+        padding: const EdgeInsets.only(left: 10),
         decoration: BoxDecoration(
-            color: AppColors.primaryGreen(),
-            border: Border.all(color: AppColors.primaryGreen()),
-            borderRadius: BorderRadius.circular(16)),
+          color: AppColors.primaryGreen(),
+          border: Border.all(color: AppColors.primaryGreen()),
+          borderRadius: BorderRadius.circular(16),
+        ),
         child: Center(
           child: Text(
             text,

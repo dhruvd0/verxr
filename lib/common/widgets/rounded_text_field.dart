@@ -8,12 +8,16 @@ class RoundedTextField extends StatelessWidget {
     this.textInputType,
     this.onChanged,
     this.controller,
+    this.textAlign,
+    this.maxLength,
   }) : super(key: key) {
     assert(onChanged != null || controller != null);
   }
   final String hintText;
   final TextInputType? textInputType;
   final Function(String)? onChanged;
+  final int? maxLength;
+  final TextAlign? textAlign;
   final TextEditingController? controller;
   @override
   Widget build(BuildContext context) {
@@ -29,9 +33,10 @@ class RoundedTextField extends StatelessWidget {
       child: TextField(
         controller: controller,
         onChanged: onChanged,
+        textAlign: textAlign ?? TextAlign.left,
         keyboardType: textInputType,
         inputFormatters: textInputType == TextInputType.phone
-            ? [LengthLimitingTextInputFormatter(10)]
+            ? [LengthLimitingTextInputFormatter(maxLength ?? 10)]
             : null,
         decoration: InputDecoration(
           border: InputBorder.none,

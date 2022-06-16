@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.verxr">
+    package="verxr.app">
    <application
         android:label="verxr"
         android:name="${applicationName}"

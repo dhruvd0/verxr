@@ -14,6 +14,12 @@ class ChangeProfile extends ProfileEvent {
   );
 }
 
+class GetProfileEvent extends ProfileEvent {
+  final String uid;
+
+  GetProfileEvent(this.uid);
+}
+
 class RegisterProfile extends ProfileEvent {}
 
 class Logout extends ProfileEvent {}

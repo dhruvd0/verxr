@@ -1,4 +1,4 @@
-package com.example.verxr
+package verxr.app
 
 import io.flutter.embedding.android.FlutterActivity
 

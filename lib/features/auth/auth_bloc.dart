@@ -33,6 +33,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
       await _firebaseAuth.verifyPhoneNumber(
         phoneNumber: '+91${event.phone}',
+        // ignore: no-empty-block
         verificationCompleted: (credential) {},
         verificationFailed: (authException) {
           c.complete(FailureAuthState(authException.code));
@@ -40,6 +41,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         codeSent: (String verificationId, _) {
           c.complete(CodeSentState(verificationId));
         },
+        // ignore: no-empty-block
         codeAutoRetrievalTimeout: (_) {},
       );
       final stateToReturn = await c.future;
@@ -59,8 +61,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           smsCode: event.otp,
         );
         emit(LoadingAuthState());
-        final userCredential =
-            await _firebaseAuth.signInWithCredential(credential);
+
+        await _firebaseAuth.signInWithCredential(credential);
         emit(SuccessAuthState());
       } on FirebaseAuthException catch (e) {
         emit(FailureAuthState(e.code));
