@@ -4,7 +4,7 @@ part of 'profile_bloc.dart';
 @immutable
 abstract class ProfileEvent {}
 
-/// Event to change a profile, users [data] to change [value]
+/// Event to change a profile users [field] to change [value]
 class ChangeProfile extends ProfileEvent {
   final ProfileFields field;
   final dynamic value;

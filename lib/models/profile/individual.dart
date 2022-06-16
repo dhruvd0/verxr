@@ -1,3 +1,4 @@
+import 'package:verxr/constants/profile_fields.dart';
 import 'package:verxr/constants/user_types.dart';
 import 'package:verxr/models/profile/profile.dart';
 
@@ -19,8 +20,8 @@ class IndividualProfile extends Profile {
   @override
   factory IndividualProfile.fromMap(Map<String, dynamic> map) {
     return IndividualProfile(
-      firstName: (map['firstName'] ?? '') as String,
-      password: (map['password'] ?? '') as String,
+      firstName: (map[ProfileFields.firstName.name] ?? '') as String,
+      password: (map[ProfileFields.password.name] ?? '') as String,
       email: (map['email'] ?? '') as String,
       phone: (map['phone'] ?? '') as String,
       uid: (map['uid'] ?? '') as String,
@@ -65,8 +66,8 @@ class IndividualProfile extends Profile {
   @override
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'firstName': firstName,
-      'password': password,
+      ProfileFields.firstName.name: firstName,
+      ProfileFields.password.name: password,
       'email': email,
       'phone': phone,
       'uid': uid,

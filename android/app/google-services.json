@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "427181172833",
-    "project_id": "verxr-c80dd",
-    "storage_bucket": "verxr-c80dd.appspot.com"
+    "project_number": "15091281628",
+    "project_id": "verxr-app-database",
+    "storage_bucket": "verxr-app-database.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:427181172833:android:76278d5b786206ed9aa220",
+        "mobilesdk_app_id": "1:15091281628:android:57833ce6e4397a1c0d4e19",
         "android_client_info": {
           "package_name": "com.example.verxr"
         }
       },
       "oauth_client": [
         {
-          "client_id": "427181172833-sb7qdbv4f5ba92ilj4ud30p80q56ibqh.apps.googleusercontent.com",
+          "client_id": "15091281628-0vn6jmq7d6fa0tq0uo8c5t3hd3denlna.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyByk16PRYILcfMuBkZ_Zt668xEpriybGOw"
+          "current_key": "AIzaSyDuR3HiPSWzDAU6LacEKEpFCO9DbfVkdp0"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "427181172833-sb7qdbv4f5ba92ilj4ud30p80q56ibqh.apps.googleusercontent.com",
+              "client_id": "15091281628-0vn6jmq7d6fa0tq0uo8c5t3hd3denlna.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
