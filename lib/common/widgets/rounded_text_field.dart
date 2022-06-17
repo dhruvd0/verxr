@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:verxr/config/theme.dart';
 
 class RoundedTextField extends StatelessWidget {
   RoundedTextField({
@@ -24,15 +25,16 @@ class RoundedTextField extends StatelessWidget {
     return Container(
       height: 53,
       width: MediaQuery.of(context).size.width,
-      margin: const EdgeInsets.all(20),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       padding: const EdgeInsets.only(left: 10),
       decoration: BoxDecoration(
-        border: Border.all(),
+        border: Border.all(color: AppColors.lightGray()),
         borderRadius: BorderRadius.circular(16),
       ),
       child: TextField(
         controller: controller,
         onChanged: onChanged,
+        style: getTextTheme(context).bodyText2!.copyWith(color: Colors.black),
         textAlign: textAlign ?? TextAlign.left,
         keyboardType: textInputType,
         inputFormatters: textInputType == TextInputType.phone
@@ -41,6 +43,7 @@ class RoundedTextField extends StatelessWidget {
         decoration: InputDecoration(
           border: InputBorder.none,
           hintText: hintText,
+          hintStyle: getTextTheme(context).bodyText2,
         ),
       ),
     );

@@ -20,7 +20,10 @@ class GetProfileEvent extends ProfileEvent {
   GetProfileEvent(this.uid);
 }
 
-class RegisterProfile extends ProfileEvent {}
+class RegisterProfileEvent extends ProfileEvent {
+  final Profile profile;
+  RegisterProfileEvent(this.profile);
+}
 
 class Logout extends ProfileEvent {}
 

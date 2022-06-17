@@ -14,10 +14,18 @@ ThemeData lightThemeData() {
         fontSize: 24,
         fontWeight: FontWeight.w600,
       ),
-      bodyText2: _defaultGoogleFontTextStyle()
-          .copyWith(fontSize: 14, color: AppColors.darkGrey()),
+      bodyText2: _defaultGoogleFontTextStyle().copyWith(
+        fontSize: 14,
+        color: AppColors.darkGrey(),
+        fontWeight: FontWeight.normal,
+      ),
       button: _defaultGoogleFontTextStyle()
           .copyWith(fontSize: 16, color: Colors.white),
+      caption: _defaultGoogleFontTextStyle().copyWith(
+        fontSize: 14,
+        color: AppColors.darkGrey(),
+        fontWeight: FontWeight.normal,
+      ),
     ),
   );
 }
@@ -33,6 +41,10 @@ TextTheme getTextTheme(BuildContext context) {
 class AppColors {
   static Color darkGrey() {
     return const Color(0xFF78746D);
+  }
+
+  static Color lightGray() {
+    return const Color(0xFFBEBAB3);
   }
 
   static Color primaryGreen() {

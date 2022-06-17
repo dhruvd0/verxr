@@ -1,22 +1,23 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:verxr/common/widgets/rounded_green_button.dart';
 import 'package:verxr/common/widgets/rounded_text_field.dart';
 import 'package:verxr/config/theme.dart';
 import 'package:verxr/features/auth/auth_bloc.dart';
+import 'package:verxr/features/auth/widgets/phone_auth/phone_auth_page.dart';
 import 'package:verxr/features/home/widgets/home_page.dart';
 import 'package:verxr/features/registration/bloc/profile_bloc.dart';
 import 'package:verxr/features/registration/widgets/registration_page.dart';
 
-class PhoneAuthPage extends StatelessWidget {
-  PhoneAuthPage({Key? key}) : super(key: key);
-  static const String routeName = 'phoneAuthPage';
-  final TextEditingController phoneNumberController = TextEditingController();
-  final TextEditingController otpController = TextEditingController();
+class EmailLoginPage extends StatelessWidget {
+  EmailLoginPage({Key? key}) : super(key: key);
+  static const String routeName = 'emailLoginPage';
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: SizedBox(
         width: MediaQuery.of(context).size.width,
         child: BlocListener<ProfileBloc, ProfileState>(
@@ -55,36 +56,29 @@ class PhoneAuthPage extends StatelessWidget {
                       height: 350,
                     ),
                     Text(
-                      'Sign Up',
+                      'Welcome Back',
                       style: getTextTheme(context).headline4,
                     ),
                     const SizedBox(
                       height: 10,
                     ),
                     Text(
-                      'Verify Your Phone Number',
+                      'Resume where You left Off',
                       style: getTextTheme(context).bodyText2,
                     ),
                     const SizedBox(
                       height: 20,
                     ),
                     RoundedTextField(
-                      hintText: 'Phone',
-                      textInputType: TextInputType.phone,
-                      controller: phoneNumberController,
+                      hintText: 'Email',
+                      textInputType: TextInputType.emailAddress,
+                      controller: emailController,
                     ),
-                    state is CodeSentState
-                        ? Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 50),
-                            child: RoundedTextField(
-                              hintText: 'OTP',
-                              textInputType: TextInputType.phone,
-                              textAlign: TextAlign.center,
-                              maxLength: 6,
-                              controller: otpController,
-                            ),
-                          )
-                        : const SizedBox(),
+                    RoundedTextField(
+                      hintText: 'Password',
+                      textInputType: TextInputType.visiblePassword,
+                      controller: passwordController,
+                    ),
                     state is LoadingAuthState
                         ? Center(
                             child: CircularProgressIndicator(
@@ -92,21 +86,37 @@ class PhoneAuthPage extends StatelessWidget {
                             ),
                           )
                         : RoundedTextButton(
-                            text:
-                                state is CodeSentState ? 'Verify' : 'Send OTP',
+                            text: 'Login',
                             onTap: () {
                               BlocProvider.of<AuthBloc>(context).add(
-                                state is CodeSentState
-                                    ? LoginEvent(
-                                        phoneNumberController.text,
-                                        otpController.text,
-                                      )
-                                    : VerifyPhoneEvent(
-                                        phoneNumberController.text,
-                                      ),
+                                EmailLoginEvent(
+                                  email: emailController.text,
+                                  password: passwordController.text,
+                                ),
                               );
                             },
                           ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, PhoneAuthPage.routeName);
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Sign Up',
+                            style: getTextTheme(context).caption,
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
                   ],
                 ),
               );

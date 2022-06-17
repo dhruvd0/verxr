@@ -18,7 +18,7 @@ class RoundedTextButton extends StatelessWidget {
       child: Container(
         height: 53,
         width: MediaQuery.of(context).size.width,
-        margin: const EdgeInsets.all(20),
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         padding: const EdgeInsets.only(left: 10),
         decoration: BoxDecoration(
           color: AppColors.primaryGreen(),

@@ -5,9 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:verxr/config/router.dart';
 import 'package:verxr/config/theme.dart';
 import 'package:verxr/features/auth/auth_bloc.dart';
-import 'package:verxr/features/auth/widgets/phone_auth/phone_auth.dart';
 import 'package:verxr/features/home/widgets/home_page.dart';
 import 'package:verxr/features/registration/bloc/profile_bloc.dart';
+import 'package:verxr/features/auth/widgets/email_login_page.dart';
 import 'package:verxr/features/registration/widgets/registration_page.dart';
 import 'package:verxr/firebase_options.dart';
 
@@ -21,11 +21,11 @@ void main({FirebaseAuth? firebaseAuth}) async {
       home: MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) => ProfileBloc(),
-          ),
-          BlocProvider(
             create: (context) =>
                 AuthBloc(firebaseAuth ?? FirebaseAuth.instance),
+          ),
+          BlocProvider(
+            create: (context) => ProfileBloc(context.read<AuthBloc>()),
           ),
         ],
         child: MaterialApp(
@@ -38,8 +38,6 @@ void main({FirebaseAuth? firebaseAuth}) async {
   );
 }
 
-/// TODO: firebase phone auth
-/// TODO: Theme setup
 ///TODO: Firebase Config/ Mock
 /// TODO: Integration Test Setup
 
@@ -83,7 +81,7 @@ class _SplashState extends State<Splash> {
       child: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is LogOutAuthState) {
-            Navigator.pushReplacementNamed(context, PhoneAuthPage.routeName);
+            Navigator.pushReplacementNamed(context, EmailLoginPage.routeName);
           } else if (state is SuccessAuthState) {
             BlocProvider.of<ProfileBloc>(context).add(
               GetProfileEvent(

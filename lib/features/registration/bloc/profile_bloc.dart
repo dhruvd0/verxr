@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 import 'package:verxr/constants/profile_fields.dart';
 import 'package:verxr/constants/user_types.dart';
+import 'package:verxr/features/auth/auth_bloc.dart';
 import 'package:verxr/models/profile/profile.dart';
 
 part 'profile_event.dart';
@@ -12,13 +14,28 @@ part 'profile_state.dart';
 
 /// State management, to create,edit and fetch profile
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
+  final AuthBloc authBloc;
+
   ///
-  ProfileBloc() : super(ProfileInitial()) {
+  ProfileBloc(this.authBloc) : super(ProfileInitial()) {
     on<ChangeProfile>(_onChangeProfile);
     on<EditNewProfile>(
       _onEditNewProfile,
     );
     on<GetProfileEvent>(_onGetProfile);
+    on<RegisterProfileEvent>(_onRegisterProfileEvent);
+  }
+  Future<void> _onRegisterProfileEvent(
+    RegisterProfileEvent event,
+    Emitter emit,
+  ) async {
+    final profile = event.profile;
+    final credential = EmailAuthProvider.credential(
+      email: profile.email,
+      password: profile.password,
+    );
+
+    await authBloc.firebaseAuth.currentUser!.linkWithCredential(credential);
   }
 
   void _onEditNewProfile(event, Emitter emit) {
@@ -47,6 +64,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     /// TODO: call get profile api here
     ///
 
-    emit(AuthenticatedProfileState(event.uid));
+    emit(FetchedProfileState(Profile.fromMap(UserType.individual, const {})));
   }
 }

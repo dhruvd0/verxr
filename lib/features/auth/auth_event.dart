@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'auth_bloc.dart';
 
 ///
@@ -5,7 +6,7 @@ part of 'auth_bloc.dart';
 abstract class AuthEvent {}
 
 ///
-class LoginEvent extends AuthEvent {
+class PhoneLoginEvent extends AuthEvent {
   ///
   final String phone;
 
@@ -13,7 +14,23 @@ class LoginEvent extends AuthEvent {
   final String otp;
 
   ///
-  LoginEvent(this.phone, this.otp);
+  PhoneLoginEvent(this.phone, this.otp);
+}
+
+///
+class EmailLoginEvent extends AuthEvent {
+  ///
+  final String email;
+
+  ///
+  final String password;
+  EmailLoginEvent({
+    required this.email,
+    required this.password,
+  });
+
+  ///
+
 }
 
 ///

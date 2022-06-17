@@ -8,16 +8,29 @@ import 'package:flutter/foundation.dart';
 part 'auth_event.dart';
 part 'auth_state.dart';
 
-/// Bloc to handle phone/otp login, logout and handle auth state changes
+/// Bloc to handle phone/otp, email login, logout and handle auth state changes
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final FirebaseAuth firebaseAuth;
 
   ///
   AuthBloc(this.firebaseAuth) : super(AuthState()) {
-    on<LoginEvent>(_loginWithOtp);
+    on<PhoneLoginEvent>(_loginWithOtp);
     on<CheckLoginEvent>(_onCheckLogin);
     on<LogOutEvent>(_onLogOut);
     on<VerifyPhoneEvent>(_verifyPhoneNumber);
+    on<EmailLoginEvent>(_onEmailLogin);
+  }
+
+  Future<void> _onEmailLogin(EmailLoginEvent event, Emitter emit) async {
+    try {
+      await firebaseAuth.signInWithEmailAndPassword(
+        email: event.email,
+        password: event.password,
+      );
+      emit(SuccessAuthState());
+    } on FirebaseAuthException catch (e) {
+      emit(FailureAuthState(e.code));
+    }
   }
 
   Future<void> _verifyPhoneNumber(
@@ -51,7 +64,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  Future<void> _loginWithOtp(LoginEvent event, Emitter<AuthState> emit) async {
+  Future<void> _loginWithOtp(
+    PhoneLoginEvent event,
+    Emitter<AuthState> emit,
+  ) async {
     try {
       assert(state is CodeSentState);
 
