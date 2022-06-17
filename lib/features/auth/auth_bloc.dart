@@ -10,10 +10,10 @@ part 'auth_state.dart';
 
 /// Bloc to handle phone/otp login, logout and handle auth state changes
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final FirebaseAuth firebaseAuth;
 
   ///
-  AuthBloc() : super(AuthState()) {
+  AuthBloc(this.firebaseAuth) : super(AuthState()) {
     on<LoginEvent>(_loginWithOtp);
     on<CheckLoginEvent>(_onCheckLogin);
     on<LogOutEvent>(_onLogOut);
@@ -31,7 +31,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       /// https://github.com/felangel/bloc/issues/2961#issuecomment-1025144654
       Completer<AuthState> c = Completer<AuthState>();
 
-      await _firebaseAuth.verifyPhoneNumber(
+      await firebaseAuth.verifyPhoneNumber(
         phoneNumber: '+91${event.phone}',
         // ignore: no-empty-block
         verificationCompleted: (credential) {},
@@ -62,7 +62,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         );
         emit(LoadingAuthState());
 
-        await _firebaseAuth.signInWithCredential(credential);
+        await firebaseAuth.signInWithCredential(credential);
         emit(SuccessAuthState());
       } on FirebaseAuthException catch (e) {
         emit(FailureAuthState(e.code));
@@ -80,7 +80,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) async {
     try {
       emit(LoadingAuthState());
-      if (_firebaseAuth.currentUser != null) {
+      if (firebaseAuth.currentUser != null) {
         emit(SuccessAuthState());
       } else {
         emit(LogOutAuthState());
@@ -92,6 +92,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   Future<void> _onLogOut(LogOutEvent event, Emitter<AuthState> emit) async {
+    await firebaseAuth.signOut();
     emit(LogOutAuthState());
   }
 }

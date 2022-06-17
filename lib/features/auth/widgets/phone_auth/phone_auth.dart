@@ -37,7 +37,12 @@ class PhoneAuthPage extends StatelessWidget {
             listener: (context, state) {
               if (state is SuccessAuthState) {
                 BlocProvider.of<ProfileBloc>(context).add(
-                  GetProfileEvent(FirebaseAuth.instance.currentUser!.uid),
+                  GetProfileEvent(
+                    BlocProvider.of<AuthBloc>(context)
+                        .firebaseAuth
+                        .currentUser!
+                        .uid,
+                  ),
                 );
               }
             },

@@ -11,14 +11,29 @@ import 'package:verxr/features/registration/bloc/profile_bloc.dart';
 import 'package:verxr/features/registration/widgets/registration_page.dart';
 import 'package:verxr/firebase_options.dart';
 
-void main() async {
+void main({FirebaseAuth? firebaseAuth}) async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(
-    const MaterialApp(
-      home: VerXR(),
+    MaterialApp(
+      home: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => ProfileBloc(),
+          ),
+          BlocProvider(
+            create: (context) =>
+                AuthBloc(firebaseAuth ?? FirebaseAuth.instance),
+          ),
+        ],
+        child: MaterialApp(
+          theme: lightThemeData(),
+          onGenerateRoute: onGenerateRoute,
+          home: const Splash(),
+        ),
+      ),
     ),
   );
 }
@@ -28,30 +43,9 @@ void main() async {
 ///TODO: Firebase Config/ Mock
 /// TODO: Integration Test Setup
 
-class VerXR extends StatelessWidget {
-  const VerXR({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => ProfileBloc(),
-        ),
-        BlocProvider(
-          create: (context) => AuthBloc(),
-        ),
-      ],
-      child: MaterialApp(
-        theme: lightThemeData(),
-        onGenerateRoute: onGenerateRoute,
-        home: const Splash(),
-      ),
-    );
-  }
-}
-
 class Splash extends StatefulWidget {
+  static const String routeName = 'splash';
+
   const Splash({Key? key}) : super(key: key);
 
   @override
@@ -92,7 +86,12 @@ class _SplashState extends State<Splash> {
             Navigator.pushReplacementNamed(context, PhoneAuthPage.routeName);
           } else if (state is SuccessAuthState) {
             BlocProvider.of<ProfileBloc>(context).add(
-              GetProfileEvent(FirebaseAuth.instance.currentUser!.uid),
+              GetProfileEvent(
+                BlocProvider.of<AuthBloc>(context)
+                    .firebaseAuth
+                    .currentUser!
+                    .uid,
+              ),
             );
           }
         },
