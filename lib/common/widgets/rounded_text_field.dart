@@ -11,6 +11,7 @@ class RoundedTextField extends StatelessWidget {
     this.controller,
     this.textAlign,
     this.maxLength,
+    required this.validator,
   }) : super(key: key) {
     assert(onChanged != null || controller != null);
   }
@@ -20,6 +21,7 @@ class RoundedTextField extends StatelessWidget {
   final int? maxLength;
   final TextAlign? textAlign;
   final TextEditingController? controller;
+  final String? Function(String?)? validator;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,9 +33,10 @@ class RoundedTextField extends StatelessWidget {
         border: Border.all(color: AppColors.lightGray()),
         borderRadius: BorderRadius.circular(16),
       ),
-      child: TextField(
+      child: TextFormField(
         controller: controller,
         onChanged: onChanged,
+        validator: validator,
         style: getTextTheme(context).bodyText2!.copyWith(color: Colors.black),
         textAlign: textAlign ?? TextAlign.left,
         keyboardType: textInputType,
