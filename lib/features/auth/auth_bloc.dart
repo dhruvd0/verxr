@@ -23,13 +23,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _onEmailLogin(EmailLoginEvent event, Emitter emit) async {
     try {
+      emit(LoadingAuthState());
       await firebaseAuth.signInWithEmailAndPassword(
         email: event.email,
         password: event.password,
       );
       emit(SuccessAuthState());
     } on FirebaseAuthException catch (e) {
-      emit(FailureAuthState(e.code));
+      emit(FailureAuthState(e.message.toString()));
     }
   }
 
@@ -68,25 +69,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     PhoneLoginEvent event,
     Emitter<AuthState> emit,
   ) async {
+    assert(state is CodeSentState);
+
     try {
-      assert(state is CodeSentState);
+      PhoneAuthCredential credential = PhoneAuthProvider.credential(
+        verificationId: (state as CodeSentState).verificationId,
+        smsCode: event.otp,
+      );
+      emit(LoadingAuthState());
 
-      try {
-        PhoneAuthCredential credential = PhoneAuthProvider.credential(
-          verificationId: (state as CodeSentState).verificationId,
-          smsCode: event.otp,
-        );
-        emit(LoadingAuthState());
-
-        await firebaseAuth.signInWithCredential(credential);
-        emit(SuccessAuthState());
-      } on FirebaseAuthException catch (e) {
-        emit(FailureAuthState(e.code));
-        rethrow;
-      }
-    } catch (e) {
-      emit(FailureAuthState(e.toString()));
-      rethrow;
+      await firebaseAuth.signInWithCredential(credential);
+      emit(SuccessAuthState());
+    } on FirebaseAuthException catch (e) {
+      emit(FailureAuthState(e.code));
     }
   }
 

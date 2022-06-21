@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:verxr/common/toast.dart';
 import 'package:verxr/common/validators/validators.dart';
 import 'package:verxr/common/widgets/rounded_green_button.dart';
 import 'package:verxr/common/widgets/rounded_text_field.dart';
@@ -45,6 +46,8 @@ class PhoneAuthPage extends StatelessWidget {
                         .uid,
                   ),
                 );
+              } else if (state is FailureAuthState) {
+                showToast(state.error.toString());
               }
             },
             builder: (context, state) {
@@ -77,7 +80,7 @@ class PhoneAuthPage extends StatelessWidget {
                         controller: phoneNumberController,
                         validator: phoneValidator,
                       ),
-                      state is CodeSentState
+                      state is CodeSentState || state is FailureAuthState
                           ? Container(
                               margin:
                                   const EdgeInsets.symmetric(horizontal: 50),

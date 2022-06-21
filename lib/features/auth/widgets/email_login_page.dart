@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:verxr/common/toast.dart';
 import 'package:verxr/common/validators/validators.dart';
 import 'package:verxr/common/widgets/rounded_green_button.dart';
 import 'package:verxr/common/widgets/rounded_text_field.dart';
@@ -48,6 +49,8 @@ class EmailLoginPage extends StatelessWidget {
                           .uid,
                     ),
                   );
+                } else if (state is FailureAuthState) {
+                  showToast(state.error.toString());
                 }
               },
               builder: (context, state) {
@@ -97,11 +100,6 @@ class EmailLoginPage extends StatelessWidget {
                                 text: 'Login',
                                 onTap: () {
                                   if (!formKey.currentState!.validate()) {
-                                    Future.delayed(const Duration(seconds: 3))
-                                        .then(
-                                      (value) => formKey.currentState!.reset(),
-                                    );
-
                                     return;
                                   }
                                   BlocProvider.of<AuthBloc>(context).add(
