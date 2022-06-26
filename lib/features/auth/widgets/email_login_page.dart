@@ -8,7 +8,8 @@ import 'package:verxr/config/theme.dart';
 import 'package:verxr/features/auth/auth_bloc.dart';
 import 'package:verxr/features/auth/widgets/phone_auth/phone_auth_page.dart';
 import 'package:verxr/features/home/widgets/home_page.dart';
-import 'package:verxr/features/registration/bloc/profile_bloc.dart';
+import 'package:verxr/features/registration/bloc/profile/profile_bloc.dart';
+
 import 'package:verxr/features/registration/widgets/registration_page.dart';
 
 class EmailLoginPage extends StatelessWidget {

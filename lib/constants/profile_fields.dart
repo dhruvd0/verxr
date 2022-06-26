@@ -15,4 +15,5 @@ enum ProfileFields {
   state,
   pincode,
   telephone,
+  userType,
 }

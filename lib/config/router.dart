@@ -22,7 +22,7 @@ Route onGenerateRoute(RouteSettings settings) {
       widget = const Splash();
       break;
     case RegistrationPage.routeName:
-      widget = const RegistrationPage();
+      widget = RegistrationPage();
       break;
     default:
   }

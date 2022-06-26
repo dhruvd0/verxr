@@ -19,8 +19,10 @@ ThemeData lightThemeData() {
         color: AppColors.darkGrey(),
         fontWeight: FontWeight.normal,
       ),
-      button: _defaultGoogleFontTextStyle()
-          .copyWith(fontSize: 16, color: Colors.white),
+      button: _defaultGoogleFontTextStyle().copyWith(
+        fontSize: 16,
+        color: Colors.white,
+      ),
       caption: _defaultGoogleFontTextStyle().copyWith(
         fontSize: 14,
         color: AppColors.darkGrey(),

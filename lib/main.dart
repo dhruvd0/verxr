@@ -6,7 +6,8 @@ import 'package:verxr/config/router.dart';
 import 'package:verxr/config/theme.dart';
 import 'package:verxr/features/auth/auth_bloc.dart';
 import 'package:verxr/features/home/widgets/home_page.dart';
-import 'package:verxr/features/registration/bloc/profile_bloc.dart';
+import 'package:verxr/features/registration/bloc/page_handler/cubit/registration_page_handler_cubit.dart';
+import 'package:verxr/features/registration/bloc/profile/profile_bloc.dart';
 import 'package:verxr/features/auth/widgets/email_login_page.dart';
 import 'package:verxr/features/registration/widgets/registration_page.dart';
 import 'package:verxr/firebase_options.dart';
@@ -25,7 +26,13 @@ void main({FirebaseAuth? firebaseAuth}) async {
                 AuthBloc(firebaseAuth ?? FirebaseAuth.instance),
           ),
           BlocProvider(
+            lazy: false,
             create: (context) => ProfileBloc(context.read<AuthBloc>()),
+          ),
+          BlocProvider(
+            lazy: false,
+            create: (context) =>
+                RegistrationPageHandlerCubit(context.read<ProfileBloc>()),
           ),
         ],
         child: MaterialApp(
@@ -71,7 +78,7 @@ class _SplashState extends State<Splash> {
             context,
             HomePage.routeName,
           );
-        } else if (profileState is AuthenticatedProfileState) {
+        } else if (profileState is EditProfileState) {
           Navigator.pushReplacementNamed(
             context,
             RegistrationPage.routeName,

@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:verxr/constants/profile_fields.dart';
 import 'package:verxr/constants/user_types.dart';
 import 'package:verxr/features/auth/auth_bloc.dart';
-import 'package:verxr/features/registration/bloc/profile_bloc.dart';
+import 'package:verxr/features/registration/bloc/profile/profile_bloc.dart';
 import 'package:verxr/models/profile/group.dart';
 import 'package:verxr/models/profile/institution.dart';
 
@@ -17,8 +17,8 @@ void main() {
           '$type',
           build: () => ProfileBloc(AuthBloc(mockAuth)),
           act: (bloc) {
-            bloc.add(EditNewProfile(type));
-            bloc.add(ChangeProfile(ProfileFields.firstName, name));
+            bloc.add(EditNewProfileEvent(type));
+            bloc.add(ChangeProfileEvent(ProfileFields.firstName, name));
           },
           verify: (bloc) {
             expect(bloc.state, isA<EditProfileState>());
@@ -32,8 +32,8 @@ void main() {
       'Change board for  group users ',
       build: () => ProfileBloc(AuthBloc(mockAuth)),
       act: (bloc) {
-        bloc.add(EditNewProfile(UserType.group));
-        bloc.add(ChangeProfile(ProfileFields.board, 'test_board'));
+        bloc.add(EditNewProfileEvent(UserType.group));
+        bloc.add(ChangeProfileEvent(ProfileFields.board, 'test_board'));
       },
       verify: (bloc) {
         expect(
@@ -47,8 +47,8 @@ void main() {
       'Change telephone for institution users ',
       build: () => ProfileBloc(AuthBloc(mockAuth)),
       act: (bloc) {
-        bloc.add(EditNewProfile(UserType.institution));
-        bloc.add(ChangeProfile(ProfileFields.telephone, '111'));
+        bloc.add(EditNewProfileEvent(UserType.institution));
+        bloc.add(ChangeProfileEvent(ProfileFields.telephone, '111'));
       },
       verify: (bloc) {
         expect(

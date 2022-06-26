@@ -7,6 +7,7 @@ import 'package:meta/meta.dart';
 import 'package:verxr/constants/profile_fields.dart';
 import 'package:verxr/constants/user_types.dart';
 import 'package:verxr/features/auth/auth_bloc.dart';
+import 'package:verxr/models/profile/individual.dart';
 import 'package:verxr/models/profile/profile.dart';
 
 part 'profile_event.dart';
@@ -18,8 +19,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   ///
   ProfileBloc(this.authBloc) : super(ProfileInitial()) {
-    on<ChangeProfile>(_onChangeProfile);
-    on<EditNewProfile>(
+    on<ChangeProfileEvent>(_onChangeProfile);
+    on<EditNewProfileEvent>(
       _onEditNewProfile,
     );
     on<GetProfileEvent>(_onGetProfile);
@@ -44,7 +45,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }
 
   void _onChangeProfile(
-    ChangeProfile changeProfileEvent,
+    ChangeProfileEvent changeProfileEvent,
     Emitter emit,
   ) {
     assert(state is EditProfileState);
@@ -53,7 +54,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     var map = profile.toMap();
     var key = changeProfileEvent.field.name;
     map[key] = changeProfileEvent.value;
-    profile = Profile.fromMap(profile.userType, map);
+    profile = Profile.fromMap(
+      changeProfileEvent.value is UserType
+          ? changeProfileEvent.value
+          : profile.userType,
+      map,
+    );
     emit(EditProfileState(profile));
   }
 
@@ -64,6 +70,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     /// TODO: call get profile api here
     ///
 
-    emit(FetchedProfileState(Profile.fromMap(UserType.individual, const {})));
+    emit(EditProfileState(IndividualProfile.fromMap(const {})));
   }
 }

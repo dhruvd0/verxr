@@ -5,10 +5,10 @@ part of 'profile_bloc.dart';
 abstract class ProfileEvent {}
 
 /// Event to change a profile users [field] to change [value]
-class ChangeProfile extends ProfileEvent {
+class ChangeProfileEvent extends ProfileEvent {
   final ProfileFields field;
   final dynamic value;
-  ChangeProfile(
+  ChangeProfileEvent(
     this.field,
     this.value,
   );
@@ -25,9 +25,9 @@ class RegisterProfileEvent extends ProfileEvent {
   RegisterProfileEvent(this.profile);
 }
 
-class Logout extends ProfileEvent {}
+class LogoutEvent extends ProfileEvent {}
 
-class EditNewProfile extends ProfileEvent {
+class EditNewProfileEvent extends ProfileEvent {
   final UserType userType;
-  EditNewProfile(this.userType);
+  EditNewProfileEvent(this.userType);
 }

@@ -7,7 +7,7 @@ import 'package:verxr/common/widgets/rounded_text_field.dart';
 import 'package:verxr/config/theme.dart';
 import 'package:verxr/features/auth/auth_bloc.dart';
 import 'package:verxr/features/home/widgets/home_page.dart';
-import 'package:verxr/features/registration/bloc/profile_bloc.dart';
+import 'package:verxr/features/registration/bloc/profile/profile_bloc.dart';
 import 'package:verxr/features/registration/widgets/registration_page.dart';
 
 class PhoneAuthPage extends StatelessWidget {
@@ -28,7 +28,7 @@ class PhoneAuthPage extends StatelessWidget {
                 context,
                 HomePage.routeName,
               );
-            } else if (profileState is AuthenticatedProfileState) {
+            } else if (profileState is EditProfileState) {
               Navigator.pushReplacementNamed(
                 context,
                 RegistrationPage.routeName,
