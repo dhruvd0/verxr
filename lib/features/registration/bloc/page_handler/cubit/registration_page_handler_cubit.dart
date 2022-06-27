@@ -40,20 +40,24 @@ class RegistrationPageHandlerCubit extends Cubit<RegistrationPageHandlerState> {
           ]);
           break;
         case UserType.institution:
-          fields.addAll([
-            ProfileFields.firstName,
-            ProfileFields.country,
-            ProfileFields.state,
-            ProfileFields.pincode,
-            ProfileFields.board,
-            ProfileFields.telephone,
-          ]);
+          fields.addAll(profileFieldsForInstitution);
           break;
       }
 
       fields.addAll([ProfileFields.email, ProfileFields.password]);
       emit(state.copyWith(pageFields: fields));
     }
+  }
+
+  List<ProfileFields> get profileFieldsForInstitution {
+    return [
+      ProfileFields.firstName,
+      ProfileFields.country,
+      ProfileFields.state,
+      ProfileFields.pincode,
+      ProfileFields.board,
+      ProfileFields.telephone,
+    ];
   }
 
   void changeCurrentPageIndex(int value) {

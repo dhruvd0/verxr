@@ -29,7 +29,7 @@ class RoundedTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 53,
+      constraints: const BoxConstraints(maxHeight: 60, minHeight: 53),
       width: MediaQuery.of(context).size.width,
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       padding: const EdgeInsets.only(left: 10),
@@ -39,6 +39,10 @@ class RoundedTextField extends StatelessWidget {
       ),
       child: TextFormField(
         controller: controller,
+        scrollPadding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom +
+              (getTextTheme(context).bodyText2!.fontSize! * 4),
+        ),
         onChanged: onChanged,
         enabled: isEnabled ?? true,
         validator: validator,
