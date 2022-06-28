@@ -11,6 +11,7 @@ import 'package:verxr/features/registration/bloc/page_handler/cubit/registration
 import 'package:verxr/features/registration/bloc/profile/profile_bloc.dart';
 import 'package:verxr/features/registration/widgets/choose_user_type.dart';
 import 'package:verxr/features/registration/widgets/dob_selector.dart';
+import 'package:verxr/features/registration/widgets/dropdown_selector.dart';
 
 extension StringExtension on String {
   String capitalize() {
@@ -56,24 +57,40 @@ class _FieldPageState extends State<FieldPage> {
         return const ChooseUserTypeWidget();
       case ProfileFields.dob:
         return DobSelector();
-      default:
-        return RoundedTextField(
-          controller: controller,
-          hintText: field.name.capitalize(),
-          validator: (string) {
-            switch (field) {
-              case ProfileFields.email:
-                return emailValidator(string);
-              case ProfileFields.password:
-                return passwordValidator(string);
-              default:
-                return string != null && string.isNotEmpty
-                    ? null
-                    : 'This is required';
-            }
-          },
+      case ProfileFields.board:
+        return DropdownSelector(items: const ['CBSE', 'ICSE'], fields: field);
+      case ProfileFields.country:
+        return DropdownSelector(
+          items: const ['India', 'US', 'China'],
+          fields: field,
         );
+      case ProfileFields.state:
+        return DropdownSelector(
+          items: const ['Delhi', 'Maharashtra'],
+          fields: field,
+        );
+      default:
+        return _defaultWidgetForField(field);
     }
+  }
+
+  RoundedTextField _defaultWidgetForField(ProfileFields field) {
+    return RoundedTextField(
+      controller: controller,
+      hintText: field.name.capitalize(),
+      validator: (string) {
+        switch (field) {
+          case ProfileFields.email:
+            return emailValidator(string);
+          case ProfileFields.password:
+            return passwordValidator(string);
+          default:
+            return string != null && string.isNotEmpty
+                ? null
+                : 'This is required';
+        }
+      },
+    );
   }
 
   @override
@@ -126,7 +143,13 @@ class _FieldPageState extends State<FieldPage> {
                   text: 'Next',
                   onTap: () {
                     if (formKey.currentState?.validate() ?? true) {
-                      if (widget.field != ProfileFields.userType) {
+                      if (![
+                        ProfileFields.userType,
+                        ProfileFields.dob,
+                        ProfileFields.country,
+                        ProfileFields.state,
+                        ProfileFields.board,
+                      ].contains(widget.field)) {
                         BlocProvider.of<ProfileBloc>(context).add(
                           ChangeProfileEvent(widget.field, controller.text),
                         );
