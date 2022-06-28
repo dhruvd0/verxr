@@ -2,7 +2,7 @@ import 'package:verxr/constants/profile_fields.dart';
 import 'package:verxr/constants/user_types.dart';
 import 'package:verxr/models/profile/profile.dart';
 
-///
+/// Has a total of 9 fields including [Profile]
 class IndividualProfile extends Profile {
   ///
   const IndividualProfile({
@@ -66,7 +66,7 @@ class IndividualProfile extends Profile {
   @override
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      ProfileFields.firstName.name: firstName,
+      ProfileFields.firstName.name: firstName + middleName + lastName,
       ProfileFields.password.name: password,
       'email': email,
       'phone': phone,

@@ -5,7 +5,7 @@ import 'package:verxr/models/profile/group.dart';
 import 'package:verxr/models/profile/individual.dart';
 import 'package:verxr/models/profile/institution.dart';
 
-/// Generic Profile class for Individual, Group and Institution
+/// Generic Profile class for Individual, Group and Institution, has 6 fields
 abstract class Profile extends Equatable {
   ///
   const Profile({

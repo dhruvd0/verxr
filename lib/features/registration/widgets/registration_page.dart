@@ -18,7 +18,7 @@ class RegistrationPage extends StatelessWidget {
           duration: const Duration(milliseconds: 250),
           curve: Curves.easeOutBack,
         );
-        
+
         return false;
       },
       child: SafeArea(
@@ -48,6 +48,7 @@ class RegistrationPage extends StatelessWidget {
                       child: PageView.builder(
                         itemCount: state.pageFields.length,
                         controller: pageController,
+                        physics: const NeverScrollableScrollPhysics(),
                         onPageChanged: (value) {
                           BlocProvider.of<RegistrationPageHandlerCubit>(
                             context,

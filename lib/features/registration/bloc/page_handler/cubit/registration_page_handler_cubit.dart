@@ -36,7 +36,7 @@ class RegistrationPageHandlerCubit extends Cubit<RegistrationPageHandlerState> {
         case UserType.group:
           fields.addAll([
             ProfileFields.firstName,
-            ProfileFields.dob,
+            ProfileFields.board,
           ]);
           break;
         case UserType.institution:
