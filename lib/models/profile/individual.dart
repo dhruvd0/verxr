@@ -66,7 +66,7 @@ class IndividualProfile extends Profile {
   @override
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      ProfileFields.firstName.name: firstName + middleName + lastName,
+      ProfileFields.firstName.name: firstName,
       ProfileFields.password.name: password,
       'email': email,
       'phone': phone,
@@ -74,6 +74,7 @@ class IndividualProfile extends Profile {
       'dob': dob,
       'middleName': middleName,
       'lastName': lastName,
+      'userType': UserType.individual.name,
     };
   }
 

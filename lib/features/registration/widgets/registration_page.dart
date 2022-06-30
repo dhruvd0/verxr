@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:verxr/common/back_button.dart';
+import 'package:verxr/features/home/widgets/home_page.dart';
 import 'package:verxr/features/registration/bloc/page_handler/cubit/registration_page_handler_cubit.dart';
 import 'package:verxr/features/registration/bloc/page_handler/cubit/registration_page_handler_state.dart';
+import 'package:verxr/features/registration/bloc/profile/profile_bloc.dart';
 import 'package:verxr/features/registration/widgets/registration_field_page.dart';
 
 class RegistrationPage extends StatelessWidget {
@@ -38,34 +40,44 @@ class RegistrationPage extends StatelessWidget {
           ),
           body: SizedBox(
             width: MediaQuery.of(context).size.width,
-            child: BlocBuilder<RegistrationPageHandlerCubit,
-                RegistrationPageHandlerState>(
-              builder: (context, state) {
-                return Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Flexible(
-                      child: PageView.builder(
-                        itemCount: state.pageFields.length,
-                        controller: pageController,
-                        physics: const NeverScrollableScrollPhysics(),
-                        onPageChanged: (value) {
-                          BlocProvider.of<RegistrationPageHandlerCubit>(
-                            context,
-                            listen: false,
-                          ).changeCurrentPageIndex(value);
-                        },
-                        itemBuilder: (_, index) {
-                          return FieldPage(
-                            field: state.pageFields[index],
-                            pageController: pageController,
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                );
+            child: BlocListener<ProfileBloc, ProfileState>(
+              listener: (context, state) {
+                if (state is FetchedProfileState) {
+                  Navigator.pushReplacementNamed(
+                    context,
+                    HomePage.routeName,
+                  );
+                }
               },
+              child: BlocBuilder<RegistrationPageHandlerCubit,
+                  RegistrationPageHandlerState>(
+                builder: (context, state) {
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Flexible(
+                        child: PageView.builder(
+                          itemCount: state.pageFields.length,
+                          controller: pageController,
+                          physics: const NeverScrollableScrollPhysics(),
+                          onPageChanged: (value) {
+                            BlocProvider.of<RegistrationPageHandlerCubit>(
+                              context,
+                              listen: false,
+                            ).changeCurrentPageIndex(value);
+                          },
+                          itemBuilder: (_, index) {
+                            return FieldPage(
+                              field: state.pageFields[index],
+                              pageController: pageController,
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
             ),
           ),
         ),

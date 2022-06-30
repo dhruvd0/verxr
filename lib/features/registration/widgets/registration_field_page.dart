@@ -1,6 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:flutter_switch/flutter_switch.dart';
+import 'package:verxr/common/toast.dart';
 import 'package:verxr/common/validators/validators.dart';
 import 'package:verxr/common/widgets/rounded_green_button.dart';
 import 'package:verxr/common/widgets/rounded_text_field.dart';
@@ -10,6 +14,7 @@ import 'package:verxr/features/registration/bloc/page_handler/cubit/registration
 import 'package:verxr/features/registration/bloc/page_handler/cubit/registration_page_handler_state.dart';
 import 'package:verxr/features/registration/bloc/profile/profile_bloc.dart';
 import 'package:verxr/features/registration/widgets/choose_user_type.dart';
+import 'package:verxr/features/registration/widgets/confirm_password_field.dart';
 import 'package:verxr/features/registration/widgets/dob_selector.dart';
 import 'package:verxr/features/registration/widgets/dropdown_selector.dart';
 
@@ -35,7 +40,10 @@ class FieldPage extends StatefulWidget {
 class _FieldPageState extends State<FieldPage> {
   var formKey = GlobalKey<FormState>();
 
-  final controller = TextEditingController();
+  final TextEditingController controller = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
+  bool acceptedTermsAndConditions = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -47,11 +55,10 @@ class _FieldPageState extends State<FieldPage> {
     ProfileFields field,
     BuildContext context,
   ) {
-    controller.text =
-        (BlocProvider.of<ProfileBloc>(context).state as EditProfileState)
-                .profile
-                .toMap()[field.name] ??
-            '';
+    if (field != ProfileFields.password) {
+      controller.text = getEnteredFieldValue(context, field);
+    }
+
     switch (field) {
       case ProfileFields.userType:
         return const ChooseUserTypeWidget();
@@ -69,9 +76,22 @@ class _FieldPageState extends State<FieldPage> {
           items: const ['Delhi', 'Maharashtra'],
           fields: field,
         );
+      case ProfileFields.password:
+        return ConfirmPasswordField(
+          confirmPasswordController: confirmPasswordController,
+          passwordController: controller,
+        );
       default:
         return _defaultWidgetForField(field);
     }
+  }
+
+  String getEnteredFieldValue(BuildContext context, ProfileFields field) {
+    var map = (BlocProvider.of<ProfileBloc>(context).state as EditProfileState)
+        .profile
+        .toMap();
+    log(map.toString());
+    return map[field.name] ?? '';
   }
 
   RoundedTextField _defaultWidgetForField(ProfileFields field) {
@@ -115,9 +135,11 @@ class _FieldPageState extends State<FieldPage> {
                   height: 10,
                 ),
                 Text(
-                  widget.field == ProfileFields.userType
-                      ? 'Get Started'
-                      : 'Your ${widget.field.name.capitalize()}',
+                  widget.field == ProfileFields.password
+                      ? 'Complete Your Registration'
+                      : widget.field == ProfileFields.userType
+                          ? 'Get Started'
+                          : 'Your ${widget.field.name.capitalize()}',
                   style: getTextTheme(context).headline4,
                 ),
                 const SizedBox(
@@ -127,7 +149,11 @@ class _FieldPageState extends State<FieldPage> {
                   builder: (context, isKeyboardVisible) {
                     return SizedBox(
                       height: isKeyboardVisible
-                          ? MediaQuery.of(context).size.height * 150 / 830
+                          ? MediaQuery.of(context).size.height *
+                              (widget.field == ProfileFields.password
+                                  ? 50
+                                  : 150) /
+                              830
                           : MediaQuery.of(context).size.height * 200 / 830,
                     );
                   },
@@ -136,30 +162,83 @@ class _FieldPageState extends State<FieldPage> {
                   key: formKey,
                   child: _buildWidgetForProfileField(widget.field, context),
                 ),
+                widget.field == ProfileFields.password
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          FlutterSwitch(
+                            activeColor: AppColors.primaryGreen(),
+                            height: 20,
+                            width: 50,
+                            value: acceptedTermsAndConditions,
+                            onToggle: (val) {
+                              setState(() {
+                                acceptedTermsAndConditions = val;
+                              });
+                            },
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            'I agree to the terms and conditions.',
+                            style: getTextTheme(context).bodyText2,
+                          )
+                        ],
+                      )
+                    : const SizedBox(),
                 const SizedBox(
                   height: 16,
                 ),
-                RoundedTextButton(
-                  text: 'Next',
-                  onTap: () {
-                    if (formKey.currentState?.validate() ?? true) {
-                      if (![
-                        ProfileFields.userType,
-                        ProfileFields.dob,
-                        ProfileFields.country,
-                        ProfileFields.state,
-                        ProfileFields.board,
-                      ].contains(widget.field)) {
-                        BlocProvider.of<ProfileBloc>(context).add(
-                          ChangeProfileEvent(widget.field, controller.text),
-                        );
-                      }
+                BlocBuilder<ProfileBloc, ProfileState>(
+                  builder: (context, profileState) {
+                    return profileState is ProfileLoadingState
+                        ? const CircularProgressIndicator()
+                        : RoundedTextButton(
+                            text: widget.field == ProfileFields.password
+                                ? 'Register'
+                                : 'Next',
+                            onTap: () {
+                              if (widget.field == ProfileFields.password) {
+                                if (controller.text !=
+                                    confirmPasswordController.text) {
+                                  showToast('Passwords Do Not Match');
+                                  return;
+                                }
+                                if (!acceptedTermsAndConditions) {
+                                  showToast('Accept T&C To Continue');
+                                  return;
+                                }
+                                BlocProvider.of<ProfileBloc>(context).add(
+                                  RegisterProfileEvent(
+                                    (profileState as EditProfileState).profile,
+                                  ),
+                                );
+                              }
 
-                      widget.pageController.nextPage(
-                        duration: const Duration(milliseconds: 250),
-                        curve: Curves.easeIn,
-                      );
-                    }
+                              if (formKey.currentState?.validate() ?? true) {
+                                if (![
+                                  ProfileFields.userType,
+                                  ProfileFields.dob,
+                                  ProfileFields.country,
+                                  ProfileFields.state,
+                                  ProfileFields.board,
+                                ].contains(widget.field)) {
+                                  BlocProvider.of<ProfileBloc>(context).add(
+                                    ChangeProfileEvent(
+                                      widget.field,
+                                      controller.text,
+                                    ),
+                                  );
+                                }
+
+                                widget.pageController.nextPage(
+                                  duration: const Duration(milliseconds: 250),
+                                  curve: Curves.easeIn,
+                                );
+                              }
+                            },
+                          );
                   },
                 ),
               ],

@@ -1,9 +1,14 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
+import 'package:verxr/common/dio.dart';
 import 'package:verxr/constants/profile_fields.dart';
 import 'package:verxr/constants/user_types.dart';
 import 'package:verxr/features/auth/auth_bloc.dart';
@@ -24,19 +29,36 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       _onEditNewProfile,
     );
     on<GetProfileEvent>(_onGetProfile);
-    on<RegisterProfileEvent>(_onRegisterProfileEvent);
+    on<RegisterProfileEvent>(registerProfile);
   }
-  Future<void> _onRegisterProfileEvent(
+  Future<void> registerProfile(
     RegisterProfileEvent event,
     Emitter emit,
   ) async {
-    final profile = event.profile;
-    final credential = EmailAuthProvider.credential(
-      email: profile.email,
-      password: profile.password,
-    );
+    try {
+      final profile = event.profile;
+      if (authBloc.firebaseAuth is! MockFirebaseAuth) {
+        final credential = EmailAuthProvider.credential(
+          email: profile.email,
+          password: profile.password,
+        );
 
-    await authBloc.firebaseAuth.currentUser!.linkWithCredential(credential);
+        await authBloc.firebaseAuth.currentUser!.linkWithCredential(credential);
+      }
+      var map = profile.toMap();
+      log(jsonEncode(map));
+      var formData = FormData.fromMap(map);
+      final response = await dio.post('/register', data: formData);
+      if (response.statusCode != 200) {
+        emit(ProfileErrorState(jsonDecode(response.data)['message']));
+        return;
+      }
+      emit(FetchedProfileState(profile));
+    } on FirebaseAuthException catch (e) {
+      emit(ProfileErrorState(e.message.toString()));
+    } on DioError catch (e) {
+      emit(ProfileErrorState(e.message));
+    }
   }
 
   void _onEditNewProfile(event, Emitter emit) {
