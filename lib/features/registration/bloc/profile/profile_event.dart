@@ -22,7 +22,8 @@ class GetProfileEvent extends ProfileEvent {
 
 class RegisterProfileEvent extends ProfileEvent {
   final Profile profile;
-  RegisterProfileEvent(this.profile);
+  final String password;
+  RegisterProfileEvent(this.profile, this.password);
 }
 
 class LogoutEvent extends ProfileEvent {}

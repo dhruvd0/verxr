@@ -14,7 +14,7 @@ class IndividualProfile extends Profile {
     required this.dob,
     required this.middleName,
     required this.lastName,
-  }) : super(userType: UserType.individual);
+  }) : super(userType: UserType.Individual);
 
   ///
   @override
@@ -74,7 +74,7 @@ class IndividualProfile extends Profile {
       'dob': dob,
       'middleName': middleName,
       'lastName': lastName,
-      'userType': UserType.individual.name,
+      'userType': UserType.Individual.name,
     };
   }
 

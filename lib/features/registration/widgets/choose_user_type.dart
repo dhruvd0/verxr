@@ -16,7 +16,7 @@ class ChooseUserTypeWidget extends StatelessWidget {
       listener: (_, state) {
         if (state is! EditProfileState) {
           BlocProvider.of<ProfileBloc>(context, listen: false).add(
-            ChangeProfileEvent(ProfileFields.userType, UserType.individual),
+            ChangeProfileEvent(ProfileFields.userType, UserType.Individual),
           );
         }
       },

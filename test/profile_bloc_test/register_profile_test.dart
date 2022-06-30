@@ -10,8 +10,9 @@ import 'edit_profile_test.dart';
 void main() {
   var authBloc = AuthBloc(mockAuth());
   var s = authBloc.firebaseAuth.currentUser!.uid;
+  var firstName = 'test_name-$s';
   var mockProfile = IndividualProfile(
-    firstName: 'test_name-$s',
+    firstName: firstName,
     password: const Uuid().v4(),
     email: authBloc.firebaseAuth.currentUser!.email!,
     phone: authBloc.firebaseAuth.currentUser!.phoneNumber!,
@@ -27,14 +28,15 @@ void main() {
     },
     seed: () => EditProfileState(mockProfile),
     act: (bloc) {
-      bloc.add(RegisterProfileEvent((bloc.state as EditProfileState).profile));
+      bloc.add(RegisterProfileEvent((bloc.state as EditProfileState).profile, const Uuid().v4()));
     },
-    wait: const Duration(seconds: 2),
+    wait: const Duration(seconds: 1),
     verify: (bloc) {
+
       expect(
         ((bloc.state as FetchedProfileState).profile as IndividualProfile)
             .firstName,
-        'test_name',
+        firstName,
       );
     },
   );

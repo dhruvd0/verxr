@@ -18,15 +18,17 @@ abstract class Profile extends Equatable {
   });
 
   ///
-  factory Profile.fromMap(UserType userType, Map<String, dynamic> map) {
+  factory Profile.fromMap(String userType, Map<String, dynamic> map) {
     switch (userType) {
-      case UserType.individual:
+      case "Individual":
         return IndividualProfile.fromMap(map);
-      case UserType.group:
+      case "Group":
         return GroupProfile.fromMap(map);
 
-      case UserType.institution:
+      case "Institution":
         return InstitutionProfile.fromMap(map);
+      default:
+        return IndividualProfile.fromMap(map);
     }
   }
 

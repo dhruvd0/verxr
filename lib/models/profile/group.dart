@@ -12,7 +12,7 @@ class GroupProfile extends Profile {
     required super.phone,
     required super.uid,
     required this.board,
-  }) : super(userType: UserType.group);
+  }) : super(userType: UserType.Group);
 
   /// CBSE, ICSE etc
   final String board;

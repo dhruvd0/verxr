@@ -9,6 +9,7 @@ import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 import 'package:verxr/common/dio.dart';
+import 'package:verxr/common/toast.dart';
 import 'package:verxr/constants/profile_fields.dart';
 import 'package:verxr/constants/user_types.dart';
 import 'package:verxr/features/auth/auth_bloc.dart';
@@ -40,24 +41,31 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       if (authBloc.firebaseAuth is! MockFirebaseAuth) {
         final credential = EmailAuthProvider.credential(
           email: profile.email,
-          password: profile.password,
+          password: event.password,
         );
-
+        emit(ProfileLoadingState());
+        await authBloc.firebaseAuth.currentUser!.reload();
         await authBloc.firebaseAuth.currentUser!.linkWithCredential(credential);
       }
       var map = profile.toMap();
-      log(jsonEncode(map));
-      var formData = FormData.fromMap(map);
-      final response = await dio.post('/register', data: formData);
+      map['uid'] = authBloc.firebaseAuth.currentUser!.uid;
+      map['phone'] = authBloc.firebaseAuth.currentUser!.phoneNumber;
+
+      final response = await dio.post('/register', data: jsonEncode(map));
+      var responseData = (response.data);
       if (response.statusCode != 200) {
-        emit(ProfileErrorState(jsonDecode(response.data)['message']));
+        emit(ProfileErrorState(responseData['message']));
         return;
       }
-      emit(FetchedProfileState(profile));
+
+      emit(FetchedProfileState(profile, responseData['token']));
     } on FirebaseAuthException catch (e) {
-      emit(ProfileErrorState(e.message.toString()));
+      showToast(e.message.toString());
+      log(e.message.toString());
+      emit(EditProfileState(event.profile));
     } on DioError catch (e) {
-      emit(ProfileErrorState(e.message));
+      emit(EditProfileState(event.profile));
+      showToast(e.message);
     }
   }
 
@@ -70,8 +78,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     ChangeProfileEvent changeProfileEvent,
     Emitter emit,
   ) {
-    assert(state is EditProfileState);
-    var createProfileState = state as EditProfileState;
+    var createProfileState = state is EditProfileState
+        ? state as EditProfileState
+        : (EditProfileState(IndividualProfile.fromMap(const {})));
+
     var profile = createProfileState.profile;
     var map = profile.toMap();
     var key = changeProfileEvent.field.name;
@@ -85,13 +95,51 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     emit(EditProfileState(profile));
   }
 
+  Future<String?> getJWT(Emitter emit) async {
+    try {
+      final response = await dio.post(
+        '/login',
+        data: jsonEncode({
+          "uid": authBloc.firebaseAuth.currentUser!.uid,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        var body = (response.data);
+        return body['token'];
+      }
+    } on DioError {
+      emit(EditProfileState(IndividualProfile.fromMap(const {})));
+    }
+    return null;
+  }
+
   FutureOr<void> _onGetProfile(
     GetProfileEvent event,
     Emitter<ProfileState> emit,
-  ) {
-    /// TODO: call get profile api here
-    ///
+  ) async {
+    try {
+      emit(ProfileLoadingState());
+      final token = await getJWT(emit);
+      if (token == null) {
+        emit(EditProfileState(IndividualProfile.fromMap(const {})));
+      }
+      dio.options.headers = {'Authorization': 'Bearer $token'};
+      final response = await dio.get(
+        '/profile',
+      );
 
-    emit(EditProfileState(IndividualProfile.fromMap(const {})));
+      if (response.statusCode == 200) {
+        var body = (response.data);
+
+        var profileMap = body['data'];
+        final profile = Profile.fromMap(profileMap['userType'], profileMap);
+        emit(FetchedProfileState(profile, token!));
+      } else {
+        emit(ProfileErrorState(response));
+      }
+    } on DioError catch (e) {
+      emit(ProfileErrorState(e));
+    }
   }
 }

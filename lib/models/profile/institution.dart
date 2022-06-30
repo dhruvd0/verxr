@@ -17,7 +17,7 @@ class InstitutionProfile extends Profile {
     required this.state,
     required this.pincode,
     required this.telephone,
-  }) : super(userType: UserType.institution);
+  }) : super(userType: UserType.Institution);
 
   /// CBSE, ICSE etc
   final String board;

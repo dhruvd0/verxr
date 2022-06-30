@@ -10,8 +10,6 @@ import 'package:verxr/features/auth/widgets/phone_auth/phone_auth_page.dart';
 import 'package:verxr/features/home/widgets/home_page.dart';
 import 'package:verxr/features/registration/bloc/profile/profile_bloc.dart';
 
-import 'package:verxr/features/registration/widgets/registration_page.dart';
-
 class EmailLoginPage extends StatelessWidget {
   EmailLoginPage({Key? key}) : super(key: key);
   static const String routeName = 'emailLoginPage';
@@ -31,10 +29,10 @@ class EmailLoginPage extends StatelessWidget {
                 context,
                 HomePage.routeName,
               );
-            } else if (profileState is AuthenticatedProfileState) {
+            } else if (profileState is EditProfileState) {
               Navigator.pushReplacementNamed(
                 context,
-                RegistrationPage.routeName,
+                PhoneAuthPage.routeName,
               );
             }
           },

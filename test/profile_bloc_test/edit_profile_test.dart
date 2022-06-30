@@ -33,7 +33,7 @@ void main() {
       'Change board for  group users ',
       build: () => ProfileBloc(AuthBloc(mockAuth())),
       act: (bloc) {
-        bloc.add(EditNewProfileEvent(UserType.group));
+        bloc.add(EditNewProfileEvent(UserType.Group));
         bloc.add(ChangeProfileEvent(ProfileFields.board, 'test_board'));
       },
       verify: (bloc) {
@@ -48,7 +48,7 @@ void main() {
       'Change telephone for institution users ',
       build: () => ProfileBloc(AuthBloc(mockAuth())),
       act: (bloc) {
-        bloc.add(EditNewProfileEvent(UserType.institution));
+        bloc.add(EditNewProfileEvent(UserType.Institution));
         bloc.add(ChangeProfileEvent(ProfileFields.telephone, '111'));
       },
       verify: (bloc) {
@@ -63,11 +63,15 @@ void main() {
 }
 
 MockFirebaseAuth mockAuth([String? uid]) {
-  uid=uid?? const Uuid().v4();
-  var phone='+91$uid';
-  var email='$uid@gmail.com';
+  uid = uid ?? const Uuid().v4();
+  var phone = '+91$uid';
+  var email = '$uid@gmail.com';
   return MockFirebaseAuth(
-      signedIn: true,
-      mockUser: MockUser(uid: uid, phoneNumber: phone,email: email,),
-    );
+    signedIn: true,
+    mockUser: MockUser(
+      uid: uid,
+      phoneNumber: phone,
+      email: email,
+    ),
+  );
 }

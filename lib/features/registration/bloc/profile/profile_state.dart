@@ -22,12 +22,13 @@ class EditProfileState extends ProfileState {
 /// State which has a registered profile, to be used in entire app
 class FetchedProfileState extends ProfileState {
   final Profile profile;
-  FetchedProfileState(this.profile);
+  final String token;
+  FetchedProfileState(this.profile, this.token);
 }
 
 class ProfileLoadingState extends ProfileState {}
 
 class ProfileErrorState extends ProfileState {
-  final String errorMessage;
+  final dynamic errorMessage;
   ProfileErrorState(this.errorMessage);
 }

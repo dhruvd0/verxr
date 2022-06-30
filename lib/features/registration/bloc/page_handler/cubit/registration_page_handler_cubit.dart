@@ -25,7 +25,7 @@ class RegistrationPageHandlerCubit extends Cubit<RegistrationPageHandlerState> {
       var fields = [ProfileFields.userType];
 
       switch (profileState.profile.userType) {
-        case UserType.individual:
+        case UserType.Individual:
           fields.addAll([
             ProfileFields.firstName,
             ProfileFields.middleName,
@@ -33,13 +33,13 @@ class RegistrationPageHandlerCubit extends Cubit<RegistrationPageHandlerState> {
             ProfileFields.dob,
           ]);
           break;
-        case UserType.group:
+        case UserType.Group:
           fields.addAll([
             ProfileFields.firstName,
             ProfileFields.board,
           ]);
           break;
-        case UserType.institution:
+        case UserType.Institution:
           fields.addAll(profileFieldsForInstitution);
           break;
       }

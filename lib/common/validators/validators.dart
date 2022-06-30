@@ -11,7 +11,9 @@ String? emailValidator(String? s) {
 }
 
 String? phoneValidator(String? s) {
-  return validator.phone(s ?? '') ? null : 'Invalid Phone';
+  return validator.phone(s ?? '') && (s ?? '').length == 10
+      ? null
+      : 'Invalid Phone';
 }
 
 String? nameValidator(String? s) {

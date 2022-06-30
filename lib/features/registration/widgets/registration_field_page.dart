@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
@@ -90,7 +88,7 @@ class _FieldPageState extends State<FieldPage> {
     var map = (BlocProvider.of<ProfileBloc>(context).state as EditProfileState)
         .profile
         .toMap();
-    log(map.toString());
+
     return map[field.name] ?? '';
   }
 
@@ -209,13 +207,16 @@ class _FieldPageState extends State<FieldPage> {
                                   showToast('Accept T&C To Continue');
                                   return;
                                 }
+                                FocusScope.of(context)
+                                    .requestFocus(FocusNode());
                                 BlocProvider.of<ProfileBloc>(context).add(
                                   RegisterProfileEvent(
                                     (profileState as EditProfileState).profile,
+                                    confirmPasswordController.text,
                                   ),
                                 );
+                                return;
                               }
-
                               if (formKey.currentState?.validate() ?? true) {
                                 if (![
                                   ProfileFields.userType,

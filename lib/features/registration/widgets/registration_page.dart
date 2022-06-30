@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:verxr/common/back_button.dart';
+import 'package:verxr/features/auth/widgets/phone_auth/phone_auth_page.dart';
 import 'package:verxr/features/home/widgets/home_page.dart';
 import 'package:verxr/features/registration/bloc/page_handler/cubit/registration_page_handler_cubit.dart';
 import 'package:verxr/features/registration/bloc/page_handler/cubit/registration_page_handler_state.dart';
@@ -9,17 +11,27 @@ import 'package:verxr/features/registration/widgets/registration_field_page.dart
 
 class RegistrationPage extends StatelessWidget {
   RegistrationPage({Key? key}) : super(key: key);
+
   static const String routeName = "registrationPage";
+
   final PageController pageController = PageController();
+
+  Future<void> onBack(BuildContext context) async {
+    if ((pageController.page ?? 0) < 1) {
+      await FirebaseAuth.instance.signOut();
+      Navigator.pushReplacementNamed(context, PhoneAuthPage.routeName);
+    }
+    await pageController.previousPage(
+      duration: const Duration(milliseconds: 250),
+      curve: Curves.easeOutBack,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        await pageController.previousPage(
-          duration: const Duration(milliseconds: 250),
-          curve: Curves.easeOutBack,
-        );
+        await onBack(context);
 
         return false;
       },
@@ -29,10 +41,7 @@ class RegistrationPage extends StatelessWidget {
           appBar: AppBar(
             leading: BackIconButton(
               onTap: () {
-                pageController.previousPage(
-                  duration: const Duration(milliseconds: 250),
-                  curve: Curves.easeOutBack,
-                );
+                onBack(context);
               },
             ),
             backgroundColor: Colors.white,
