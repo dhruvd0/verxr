@@ -10,6 +10,10 @@ ThemeData lightThemeData() {
     backgroundColor: Colors.white,
     textTheme: TextTheme(
       headline1: _defaultGoogleFontTextStyle().copyWith(fontSize: 40),
+      headline3: _defaultGoogleFontTextStyle().copyWith(
+        fontSize: 32,
+        fontWeight: FontWeight.w600,
+      ),
       headline4: _defaultGoogleFontTextStyle().copyWith(
         fontSize: 24,
         fontWeight: FontWeight.w600,

@@ -85,22 +85,30 @@ class _SplashState extends State<Splash> {
           );
         }
       },
-      child: BlocListener<AuthBloc, AuthState>(
-        listener: (context, state) {
-          if (state is LogOutAuthState) {
-            Navigator.pushReplacementNamed(context, EmailLoginPage.routeName);
-          } else if (state is SuccessAuthState) {
-            BlocProvider.of<ProfileBloc>(context).add(
-              GetProfileEvent(
-                BlocProvider.of<AuthBloc>(context)
-                    .firebaseAuth
-                    .currentUser!
-                    .uid,
-              ),
-            );
-          }
-        },
-        child: Container(),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: BlocListener<AuthBloc, AuthState>(
+          listener: (context, state) {
+            if (state is LogOutAuthState) {
+              Navigator.pushReplacementNamed(context, EmailLoginPage.routeName);
+            } else if (state is SuccessAuthState) {
+              BlocProvider.of<ProfileBloc>(context).add(
+                GetProfileEvent(
+                  BlocProvider.of<AuthBloc>(context)
+                      .firebaseAuth
+                      .currentUser!
+                      .uid,
+                ),
+              );
+            }
+          },
+          child: Center(
+            child: Container(
+              padding: const EdgeInsets.all(50),
+              child: Image.asset('assets/logo.png'),
+            ),
+          ),
+        ),
       ),
     );
   }

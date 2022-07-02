@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 
 var options = BaseOptions(
   baseUrl: 'https://verxr-server.vercel.app/',
-  connectTimeout: 5000,
+  connectTimeout: 10000,
   receiveTimeout: 3000,
   headers: {
     Headers.contentTypeHeader: Headers.jsonContentType,
@@ -13,11 +13,7 @@ var options = BaseOptions(
 final dio = Dio(options)..interceptors.add(CustomInterceptors());
 
 class CustomInterceptors extends Interceptor {
-  @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    log('REQUEST[${options.method}] => PATH: ${options.path}');
-    return super.onRequest(options, handler);
-  }
+  
 
   @override
   Future onResponse(

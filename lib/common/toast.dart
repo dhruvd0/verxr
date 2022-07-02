@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:verxr/config/theme.dart';
 
 void showToast(String s) {
+
   Fluttertoast.showToast(
     msg: s,
     backgroundColor: AppColors.darkGrey(),

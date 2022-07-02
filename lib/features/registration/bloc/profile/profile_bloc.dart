@@ -39,19 +39,31 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     try {
       final profile = event.profile;
       if (authBloc.firebaseAuth is! MockFirebaseAuth) {
-        final credential = EmailAuthProvider.credential(
-          email: profile.email,
-          password: event.password,
-        );
-        emit(ProfileLoadingState());
-        await authBloc.firebaseAuth.currentUser!.reload();
-        await authBloc.firebaseAuth.currentUser!.linkWithCredential(credential);
+        try {
+          final credential = EmailAuthProvider.credential(
+            email: profile.email,
+            password: event.password,
+          );
+          emit(ProfileLoadingState());
+          await authBloc.firebaseAuth.currentUser!.reload();
+          await authBloc.firebaseAuth.currentUser!
+              .linkWithCredential(credential);
+        } on FirebaseAuthException catch (e) {
+          // TODO
+          if (e.code != 'provider-already-linked') {
+            showToast(e.message.toString());
+            log(e.message.toString());
+            emit(EditProfileState(event.profile));
+            return;
+          }
+        }
       }
       var map = profile.toMap();
       map['uid'] = authBloc.firebaseAuth.currentUser!.uid;
       map['phone'] = authBloc.firebaseAuth.currentUser!.phoneNumber;
+      map.remove('password');
 
-      final response = await dio.post('/register', data: jsonEncode(map));
+      final response = await dio.post('/register', data: map);
       var responseData = (response.data);
       if (response.statusCode != 200) {
         emit(ProfileErrorState(responseData['message']));
@@ -59,11 +71,14 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       }
 
       emit(FetchedProfileState(profile, responseData['token']));
-    } on FirebaseAuthException catch (e) {
-      showToast(e.message.toString());
-      log(e.message.toString());
-      emit(EditProfileState(event.profile));
     } on DioError catch (e) {
+      if (e.response != null) {
+        if (e.response!.statusCode == 409) {
+          showToast('This profile is already registered, welcome back!');
+          add(GetProfileEvent(authBloc.firebaseAuth.currentUser!.uid));
+          return;
+        }
+      }
       emit(EditProfileState(event.profile));
       showToast(e.message);
     }
@@ -88,8 +103,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     map[key] = changeProfileEvent.value;
     profile = Profile.fromMap(
       changeProfileEvent.value is UserType
-          ? changeProfileEvent.value
-          : profile.userType,
+          ? (changeProfileEvent.value as UserType).name
+          : profile.userType.toString(),
       map,
     );
     emit(EditProfileState(profile));
@@ -108,8 +123,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         var body = (response.data);
         return body['token'];
       }
-    } on DioError {
-      emit(EditProfileState(IndividualProfile.fromMap(const {})));
+    } on DioError  catch (e) {
+      emit(ProfileErrorState('Not Registered'));
     }
     return null;
   }
@@ -122,7 +137,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       emit(ProfileLoadingState());
       final token = await getJWT(emit);
       if (token == null) {
-        emit(EditProfileState(IndividualProfile.fromMap(const {})));
+        emit(ProfileErrorState('Not Registered'));
+        return;
       }
       dio.options.headers = {'Authorization': 'Bearer $token'};
       final response = await dio.get(

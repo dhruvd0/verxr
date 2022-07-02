@@ -30,10 +30,7 @@ class EmailLoginPage extends StatelessWidget {
                 HomePage.routeName,
               );
             } else if (profileState is EditProfileState) {
-              Navigator.pushReplacementNamed(
-                context,
-                PhoneAuthPage.routeName,
-              );
+              showToast('Profile is not Registered');
             }
           },
           builder: (context, profileState) {
