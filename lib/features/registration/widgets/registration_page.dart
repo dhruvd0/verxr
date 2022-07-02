@@ -68,7 +68,8 @@ class RegistrationPage extends StatelessWidget {
                         child: PageView.builder(
                           itemCount: state.pageFields.length,
                           controller: pageController,
-                          physics: const NeverScrollableScrollPhysics(parent:BouncingScrollPhysics()),
+                          physics: const NeverScrollableScrollPhysics(
+                              parent: BouncingScrollPhysics()),
                           onPageChanged: (value) {
                             BlocProvider.of<RegistrationPageHandlerCubit>(
                               context,

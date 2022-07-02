@@ -13,8 +13,6 @@ var options = BaseOptions(
 final dio = Dio(options)..interceptors.add(CustomInterceptors());
 
 class CustomInterceptors extends Interceptor {
-  
-
   @override
   Future onResponse(
     Response response,

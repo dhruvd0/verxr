@@ -123,7 +123,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         var body = (response.data);
         return body['token'];
       }
-    } on DioError  catch (e) {
+    } on DioError {
       emit(ProfileErrorState('Not Registered'));
     }
     return null;
@@ -150,7 +150,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
         var profileMap = body['data'];
         final profile = Profile.fromMap(profileMap['userType'], profileMap);
-        emit(FetchedProfileState(profile, token!));
+        emit(FetchedProfileState(profile, token));
       } else {
         emit(ProfileErrorState(response));
       }

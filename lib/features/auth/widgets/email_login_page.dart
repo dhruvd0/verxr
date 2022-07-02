@@ -111,7 +111,7 @@ class EmailLoginPage extends StatelessWidget {
                         ),
                         GestureDetector(
                           onTap: () {
-                            Navigator.pushNamed(
+                            Navigator.pushReplacementNamed(
                               context,
                               PhoneAuthPage.routeName,
                             );

@@ -85,9 +85,11 @@ class _FieldPageState extends State<FieldPage> {
   }
 
   String getEnteredFieldValue(BuildContext context, ProfileFields field) {
-    var map = (BlocProvider.of<ProfileBloc>(context).state as EditProfileState)
-        .profile
-        .toMap();
+    var state = BlocProvider.of<ProfileBloc>(context).state;
+    if (state is! EditProfileState) {
+      return '';
+    }
+    var map = (state as EditProfileState).profile.toMap();
 
     return map[field.name] ?? '';
   }
