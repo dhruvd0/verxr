@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:verxr/common/validators/validators.dart';
-import 'package:verxr/common/widgets/rounded_text_field.dart';
+import 'package:verxr/config/common/validators/validators.dart';
+import 'package:verxr/config/common/widgets/rounded_text_field.dart';
 
 class ConfirmPasswordField extends StatelessWidget {
   const ConfirmPasswordField({

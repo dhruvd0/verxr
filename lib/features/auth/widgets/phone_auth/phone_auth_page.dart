@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:verxr/common/toast.dart';
-import 'package:verxr/common/validators/validators.dart';
-import 'package:verxr/common/widgets/rounded_green_button.dart';
-import 'package:verxr/common/widgets/rounded_text_field.dart';
+import 'package:verxr/config/common/toast.dart';
+import 'package:verxr/config/common/validators/validators.dart';
+import 'package:verxr/config/common/widgets/rounded_green_button.dart';
+import 'package:verxr/config/common/widgets/rounded_text_field.dart';
 import 'package:verxr/config/theme.dart';
 import 'package:verxr/constants/profile_fields.dart';
 import 'package:verxr/constants/user_types.dart';

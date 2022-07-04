@@ -11,6 +11,7 @@ import 'package:verxr/models/profile/institution.dart';
 
 void main() {
   group('Edit Profile Tests:', () {
+    
     group('Change first Name', () {
       for (var type in UserType.values) {
         String name = 'firstName$type';

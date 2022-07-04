@@ -1,5 +1,7 @@
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:verxr/config/router.dart';
@@ -11,12 +13,14 @@ import 'package:verxr/features/registration/bloc/profile/profile_bloc.dart';
 import 'package:verxr/features/auth/widgets/email_login_page.dart';
 import 'package:verxr/features/registration/widgets/registration_page.dart';
 import 'package:verxr/firebase_options.dart';
+import 'package:verxr/config/common/dio.dart';
 
 void main({FirebaseAuth? firebaseAuth}) async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await setupNetworkConfig();
   runApp(
     MaterialApp(
       home: MultiBlocProvider(
@@ -45,8 +49,10 @@ void main({FirebaseAuth? firebaseAuth}) async {
   );
 }
 
-///TODO: Firebase Config/ Mock
-/// TODO: Integration Test Setup
+Future<void> setupNetworkConfig() async {
+  await FirebaseRemoteConfig.instance.fetchAndActivate();
+  dio = Dio(defaultDioOptions())..interceptors.add(CustomInterceptors());
+}
 
 class Splash extends StatefulWidget {
   static const String routeName = 'splash';

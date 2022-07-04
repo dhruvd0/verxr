@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
-import 'package:verxr/common/widgets/rounded_green_button.dart';
+import 'package:verxr/config/common/widgets/rounded_green_button.dart';
 import 'package:verxr/config/theme.dart';
 import 'package:verxr/features/auth/auth_bloc.dart';
 import 'package:verxr/features/auth/widgets/email_login_page.dart';

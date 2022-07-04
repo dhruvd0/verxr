@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
-import 'package:verxr/common/icons.dart';
+import 'package:verxr/config/common/icons.dart';
 import 'package:verxr/config/theme.dart';
 import 'package:verxr/constants/profile_fields.dart';
 import 'package:verxr/features/registration/bloc/profile/profile_bloc.dart';

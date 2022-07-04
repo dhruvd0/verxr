@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:verxr/common/widgets/rounded_text_field.dart';
+import 'package:verxr/config/common/widgets/rounded_text_field.dart';
 import 'package:verxr/constants/profile_fields.dart';
 import 'package:verxr/features/registration/bloc/profile/profile_bloc.dart';
 import 'package:verxr/models/profile/individual.dart';

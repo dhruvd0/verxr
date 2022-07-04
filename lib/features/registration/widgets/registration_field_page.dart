@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_switch/flutter_switch.dart';
-import 'package:verxr/common/toast.dart';
-import 'package:verxr/common/validators/validators.dart';
-import 'package:verxr/common/widgets/rounded_green_button.dart';
-import 'package:verxr/common/widgets/rounded_text_field.dart';
+import 'package:verxr/config/common/toast.dart';
+import 'package:verxr/config/common/validators/validators.dart';
+import 'package:verxr/config/common/widgets/rounded_green_button.dart';
+import 'package:verxr/config/common/widgets/rounded_text_field.dart';
 import 'package:verxr/config/theme.dart';
 import 'package:verxr/constants/profile_fields.dart';
 import 'package:verxr/features/registration/bloc/page_handler/cubit/registration_page_handler_cubit.dart';
@@ -89,7 +89,7 @@ class _FieldPageState extends State<FieldPage> {
     if (state is! EditProfileState) {
       return '';
     }
-    var map = (state as EditProfileState).profile.toMap();
+    var map = (state).profile.toMap();
 
     return map[field.name] ?? '';
   }

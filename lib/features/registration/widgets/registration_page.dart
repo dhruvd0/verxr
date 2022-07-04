@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:verxr/common/back_button.dart';
+import 'package:verxr/config/common/back_button.dart';
 import 'package:verxr/features/auth/widgets/phone_auth/phone_auth_page.dart';
 import 'package:verxr/features/home/widgets/home_page.dart';
 import 'package:verxr/features/registration/bloc/page_handler/cubit/registration_page_handler_cubit.dart';
@@ -69,7 +69,8 @@ class RegistrationPage extends StatelessWidget {
                           itemCount: state.pageFields.length,
                           controller: pageController,
                           physics: const NeverScrollableScrollPhysics(
-                              parent: BouncingScrollPhysics()),
+                            parent: BouncingScrollPhysics(),
+                          ),
                           onPageChanged: (value) {
                             BlocProvider.of<RegistrationPageHandlerCubit>(
                               context,

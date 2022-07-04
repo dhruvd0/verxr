@@ -1,9 +1,7 @@
 import 'package:regexed_validator/regexed_validator.dart';
 
 String? passwordValidator(String? s) {
-  return validator.mediumPassword(s ?? '')
-      ? null
-      : 'Create a stronger password';
+  return validator.name(s ?? '') ? null : 'Password is required';
 }
 
 String? emailValidator(String? s) {
