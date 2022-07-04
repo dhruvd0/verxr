@@ -31,6 +31,8 @@ class EmailLoginPage extends StatelessWidget {
               );
             } else if (profileState is EditProfileState) {
               showToast('Profile is not Registered');
+            } else if (profileState is ProfileErrorState) {
+              showToast(profileState.errorMessage.toString());
             }
           },
           builder: (context, profileState) {
@@ -81,6 +83,7 @@ class EmailLoginPage extends StatelessWidget {
                         ),
                         RoundedTextField(
                           hintText: 'Password',
+                          obscureText: true,
                           textInputType: TextInputType.visiblePassword,
                           controller: passwordController,
                           validator: passwordValidator,

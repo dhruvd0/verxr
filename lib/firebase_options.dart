@@ -15,7 +15,6 @@ import 'package:flutter/foundation.dart'
 /// );
 /// ```
 class DefaultFirebaseOptions {
-  // ignore: long-method
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
       throw UnsupportedError(
@@ -27,10 +26,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -59,5 +55,16 @@ class DefaultFirebaseOptions {
     messagingSenderId: '15091281628',
     projectId: 'verxr-app-database',
     storageBucket: 'verxr-app-database.appspot.com',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyBsXgQsSQ0fksp6X_vgIwlGxLLL4k8Q2lg',
+    appId: '1:15091281628:ios:ee054218ae5182410d4e19',
+    messagingSenderId: '15091281628',
+    projectId: 'verxr-app-database',
+    storageBucket: 'verxr-app-database.appspot.com',
+    androidClientId: '15091281628-7nuloj7c2tocfdcp1ojq3j6tor0h1g5i.apps.googleusercontent.com',
+    iosClientId: '15091281628-atj6h35cb6oc8krcfufq86oioulbkaok.apps.googleusercontent.com',
+    iosBundleId: 'verxr.app',
   );
 }

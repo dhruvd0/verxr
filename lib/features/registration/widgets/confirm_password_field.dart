@@ -17,6 +17,7 @@ class ConfirmPasswordField extends StatelessWidget {
       children: [
         RoundedTextField(
           controller: passwordController,
+          obscureText: true,
           hintText: 'Password',
           validator: (string) {
             return passwordValidator(string);
@@ -24,6 +25,7 @@ class ConfirmPasswordField extends StatelessWidget {
         ),
         RoundedTextField(
           controller: confirmPasswordController,
+          obscureText: true,
           hintText: 'Confirm Password',
           validator: (string) {
             return passwordValidator(string);

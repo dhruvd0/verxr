@@ -90,6 +90,9 @@ class _SplashState extends State<Splash> {
             RegistrationPage.routeName,
           );
         }
+        else if (profileState is ProfileErrorState){
+          Navigator.pushReplacementNamed(context, EmailLoginPage.routeName);
+        }
       },
       child: Scaffold(
         backgroundColor: Colors.white,

@@ -9,6 +9,7 @@ class RoundedTextField extends StatelessWidget {
     this.textInputType,
     this.onChanged,
     this.controller,
+    this.obscureText,
     this.isEnabled,
     this.textAlign,
     this.maxLength,
@@ -26,6 +27,7 @@ class RoundedTextField extends StatelessWidget {
   final String? Function(String?)? validator;
   final bool? isEnabled;
   final Color? borderColor;
+  final bool? obscureText;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -44,6 +46,7 @@ class RoundedTextField extends StatelessWidget {
               (getTextTheme(context).bodyText2!.fontSize! * 4),
         ),
         onChanged: onChanged,
+        obscureText: obscureText??false,
         enabled: isEnabled ?? true,
         validator: validator,
         style: getTextTheme(context).bodyText2!.copyWith(color: Colors.black),

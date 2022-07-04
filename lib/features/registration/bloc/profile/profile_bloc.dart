@@ -114,16 +114,17 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     try {
       final response = await dio.post(
         '/login',
-        data: jsonEncode({
+        data: {
           "uid": authBloc.firebaseAuth.currentUser!.uid,
-        }),
+        },
       );
 
       if (response.statusCode == 200) {
         var body = (response.data);
         return body['token'];
       }
-    } on DioError {
+    } on DioError catch (e) {
+      log(e.toString());
       emit(ProfileErrorState('Not Registered'));
     }
     return null;

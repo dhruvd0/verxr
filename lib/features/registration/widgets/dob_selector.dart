@@ -8,17 +8,19 @@ import 'package:verxr/models/profile/individual.dart';
 
 class DobSelector extends StatelessWidget {
   DobSelector({Key? key}) : super(key: key);
-  final dobController = TextEditingController();
+  var dobController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileBloc, ProfileState>(
       builder: (context, state) {
         var dob =
             ((state as EditProfileState).profile as IndividualProfile).dob;
-        dobController.text = DateTime.tryParse(dob) == null
-            ? ''
-            : DateFormat(DateFormat.YEAR_ABBR_MONTH_DAY)
-                .format(DateTime.parse(dob));
+        dobController = TextEditingController(
+          text: DateTime.tryParse(dob) == null
+              ? ''
+              : DateFormat(DateFormat.YEAR_ABBR_MONTH_DAY)
+                  .format(DateTime.parse(dob)),
+        );
 
         return GestureDetector(
           onTap: () {
