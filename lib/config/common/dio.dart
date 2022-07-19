@@ -33,7 +33,7 @@ BaseOptions defaultDioOptions() {
   );
 }
 
-late final dio;
+late final Dio dio;
 
 class CustomInterceptors extends Interceptor {
   @override

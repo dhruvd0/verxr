@@ -46,7 +46,7 @@ class RoundedTextField extends StatelessWidget {
               (getTextTheme(context).bodyText2!.fontSize! * 4),
         ),
         onChanged: onChanged,
-        obscureText: obscureText??false,
+        obscureText: obscureText ?? false,
         enabled: isEnabled ?? true,
         validator: validator,
         style: getTextTheme(context).bodyText2!.copyWith(color: Colors.black),

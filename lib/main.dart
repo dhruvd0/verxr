@@ -11,6 +11,7 @@ import 'package:verxr/features/home/widgets/home_page.dart';
 import 'package:verxr/features/registration/bloc/page_handler/cubit/registration_page_handler_cubit.dart';
 import 'package:verxr/features/registration/bloc/profile/profile_bloc.dart';
 import 'package:verxr/features/auth/widgets/email_login_page.dart';
+import 'package:verxr/features/registration/controller/profile_api_controller.dart';
 import 'package:verxr/features/registration/widgets/registration_page.dart';
 import 'package:verxr/firebase_options.dart';
 import 'package:verxr/config/common/dio.dart';
@@ -31,7 +32,8 @@ void main({FirebaseAuth? firebaseAuth}) async {
           ),
           BlocProvider(
             lazy: false,
-            create: (context) => ProfileBloc(context.read<AuthBloc>()),
+            create: (context) =>
+                ProfileBloc(context.read<AuthBloc>(), ProfileAPIController()),
           ),
           BlocProvider(
             lazy: false,
@@ -89,8 +91,7 @@ class _SplashState extends State<Splash> {
             context,
             RegistrationPage.routeName,
           );
-        }
-        else if (profileState is ProfileErrorState){
+        } else if (profileState is ProfileErrorState) {
           Navigator.pushReplacementNamed(context, EmailLoginPage.routeName);
         }
       },

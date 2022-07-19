@@ -27,6 +27,7 @@ dependencies:
   google_fonts: ^3.0.1
   iconify_flutter: ^0.0.4
   intl: ^0.17.0
+  mockito: ^5.2.0
   regexed_validator: ^2.0.0+1
   uuid: ^3.0.6
 

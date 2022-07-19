@@ -28,7 +28,7 @@ abstract class Profile extends Equatable {
       case "Institution":
         return InstitutionProfile.fromMap(map);
       default:
-        return IndividualProfile.fromMap(map);
+        throw Exception('Invalid userType:$userType');
     }
   }
 

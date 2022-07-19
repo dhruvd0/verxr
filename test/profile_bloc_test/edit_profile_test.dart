@@ -6,6 +6,7 @@ import 'package:verxr/constants/profile_fields.dart';
 import 'package:verxr/constants/user_types.dart';
 import 'package:verxr/features/auth/auth_bloc.dart';
 import 'package:verxr/features/registration/bloc/profile/profile_bloc.dart';
+import 'package:verxr/features/registration/controller/profile_api_controller.dart';
 import 'package:verxr/models/profile/group.dart';
 import 'package:verxr/models/profile/institution.dart';
 
@@ -17,7 +18,8 @@ void main() {
         String name = 'firstName$type';
         blocTest<ProfileBloc, ProfileState>(
           '$type',
-          build: () => ProfileBloc(AuthBloc(mockAuth())),
+          build: () => ProfileBloc(AuthBloc(mockAuth(),),
+              ProfileAPIController(),),
           act: (bloc) {
             bloc.add(EditNewProfileEvent(type));
             bloc.add(ChangeProfileEvent(ProfileFields.firstName, name));
@@ -32,7 +34,7 @@ void main() {
 
     blocTest<ProfileBloc, ProfileState>(
       'Change board for  group users ',
-      build: () => ProfileBloc(AuthBloc(mockAuth())),
+      build: () => ProfileBloc(AuthBloc(mockAuth()), ProfileAPIController()),
       act: (bloc) {
         bloc.add(EditNewProfileEvent(UserType.Group));
         bloc.add(ChangeProfileEvent(ProfileFields.board, 'test_board'));
@@ -47,7 +49,7 @@ void main() {
 
     blocTest<ProfileBloc, ProfileState>(
       'Change telephone for institution users ',
-      build: () => ProfileBloc(AuthBloc(mockAuth())),
+      build: () => ProfileBloc(AuthBloc(mockAuth()), ProfileAPIController()),
       act: (bloc) {
         bloc.add(EditNewProfileEvent(UserType.Institution));
         bloc.add(ChangeProfileEvent(ProfileFields.telephone, '111'));

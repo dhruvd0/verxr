@@ -1,7 +1,7 @@
 import 'package:regexed_validator/regexed_validator.dart';
 
 String? passwordValidator(String? s) {
-  return (s??'').isNotEmpty ? null : 'Password is required';
+  return (s ?? '').isNotEmpty ? null : 'Password is required';
 }
 
 String? emailValidator(String? s) {

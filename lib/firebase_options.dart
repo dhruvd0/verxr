@@ -63,8 +63,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '15091281628',
     projectId: 'verxr-app-database',
     storageBucket: 'verxr-app-database.appspot.com',
-    androidClientId: '15091281628-7nuloj7c2tocfdcp1ojq3j6tor0h1g5i.apps.googleusercontent.com',
-    iosClientId: '15091281628-atj6h35cb6oc8krcfufq86oioulbkaok.apps.googleusercontent.com',
+    androidClientId:
+        '15091281628-7nuloj7c2tocfdcp1ojq3j6tor0h1g5i.apps.googleusercontent.com',
+    iosClientId:
+        '15091281628-atj6h35cb6oc8krcfufq86oioulbkaok.apps.googleusercontent.com',
     iosBundleId: 'verxr.app',
   );
 }

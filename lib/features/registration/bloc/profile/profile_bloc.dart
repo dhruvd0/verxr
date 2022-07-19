@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
@@ -13,6 +12,7 @@ import 'package:verxr/config/common/toast.dart';
 import 'package:verxr/constants/profile_fields.dart';
 import 'package:verxr/constants/user_types.dart';
 import 'package:verxr/features/auth/auth_bloc.dart';
+import 'package:verxr/features/registration/controller/profile_api_controller.dart';
 import 'package:verxr/models/profile/individual.dart';
 import 'package:verxr/models/profile/profile.dart';
 
@@ -22,9 +22,11 @@ part 'profile_state.dart';
 /// State management, to create,edit and fetch profile
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final AuthBloc authBloc;
+  final ProfileAPIController profileAPIController;
 
   ///
-  ProfileBloc(this.authBloc) : super(ProfileInitial()) {
+  ProfileBloc(this.authBloc, this.profileAPIController, [ProfileState? state])
+      : super(state ?? ProfileInitial()) {
     on<ChangeProfileEvent>(_onChangeProfile);
     on<EditNewProfileEvent>(
       _onEditNewProfile,
@@ -62,11 +64,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       map['uid'] = authBloc.firebaseAuth.currentUser!.uid;
       map['phone'] = authBloc.firebaseAuth.currentUser!.phoneNumber;
       map.remove('password');
-
-      final response = await dio.post('/register', data: map);
+      var response = await profileAPIController.callRegisterAPI(map);
       var responseData = (response.data);
       if (response.statusCode != 200) {
-        emit(ProfileErrorState(responseData['message']));
+        emit(ProfileErrorState(responseData['error']));
         return;
       }
 
@@ -77,6 +78,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           showToast('This profile is already registered, welcome back!');
           add(GetProfileEvent(authBloc.firebaseAuth.currentUser!.uid));
           return;
+        } else if (e.response!.statusCode == 400) {
+          emit(ProfileErrorState(e.response!.data['error']));
         }
       }
       emit(EditProfileState(event.profile));
@@ -84,8 +87,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     }
   }
 
-  void _onEditNewProfile(event, Emitter emit) {
-    emit(EditProfileState(Profile.fromMap(event.userType, const {})));
+  void _onEditNewProfile(EditNewProfileEvent event, Emitter emit) {
+    emit(EditProfileState(Profile.fromMap(event.userType.name, const {})));
     assert(state is EditProfileState);
   }
 
@@ -104,7 +107,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     profile = Profile.fromMap(
       changeProfileEvent.value is UserType
           ? (changeProfileEvent.value as UserType).name
-          : profile.userType.toString(),
+          : profile.userType.name,
       map,
     );
     emit(EditProfileState(profile));
