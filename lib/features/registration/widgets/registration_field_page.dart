@@ -38,10 +38,13 @@ class FieldPage extends StatefulWidget {
 class _FieldPageState extends State<FieldPage> {
   var formKey = GlobalKey<FormState>();
 
-  final TextEditingController controller = TextEditingController();
+  final TextEditingController defaultController = TextEditingController();
   final TextEditingController confirmPasswordController =
       TextEditingController();
   bool acceptedTermsAndConditions = false;
+
+  final TextEditingController middleNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
   @override
   void initState() {
     // TODO: implement initState
@@ -54,12 +57,38 @@ class _FieldPageState extends State<FieldPage> {
     BuildContext context,
   ) {
     if (field != ProfileFields.password) {
-      controller.text = getEnteredFieldValue(context, field);
+      defaultController.text = getEnteredFieldValue(context, field);
     }
 
     switch (field) {
       case ProfileFields.userType:
         return const ChooseUserTypeWidget();
+      case ProfileFields.firstName:
+        return Column(
+          children: [
+            RoundedTextField(
+              controller: defaultController,
+              hintText: 'First Name',
+              validator: (string) {
+                return nameValidator(string);
+              },
+            ),
+            RoundedTextField(
+              controller: middleNameController,
+              hintText: 'Middle Name',
+              validator: (string) {
+                return null;
+              },
+            ),
+            RoundedTextField(
+              controller: lastNameController,
+              hintText: 'Last Name',
+              validator: (string) {
+                return nameValidator(string);
+              },
+            ),
+          ],
+        );
       case ProfileFields.dob:
         return DobSelector();
       case ProfileFields.board:
@@ -77,10 +106,12 @@ class _FieldPageState extends State<FieldPage> {
       case ProfileFields.password:
         return ConfirmPasswordField(
           confirmPasswordController: confirmPasswordController,
-          passwordController: controller,
+          passwordController: defaultController,
         );
+      case ProfileFields.email:
+        return _textFieldForEmail(field);
       default:
-        return _defaultWidgetForField(field);
+        throw Exception('Invalid Profile Field for this form');
     }
   }
 
@@ -94,9 +125,9 @@ class _FieldPageState extends State<FieldPage> {
     return map[field.name] ?? '';
   }
 
-  RoundedTextField _defaultWidgetForField(ProfileFields field) {
+  RoundedTextField _textFieldForEmail(ProfileFields field) {
     return RoundedTextField(
-      controller: controller,
+      controller: defaultController,
       hintText: field.name.capitalize(),
       validator: (string) {
         switch (field) {
@@ -200,7 +231,7 @@ class _FieldPageState extends State<FieldPage> {
                                 : 'Next',
                             onTap: () {
                               if (widget.field == ProfileFields.password) {
-                                if (controller.text !=
+                                if (defaultController.text !=
                                     confirmPasswordController.text) {
                                   showToast('Passwords Do Not Match');
                                   return;
@@ -223,6 +254,7 @@ class _FieldPageState extends State<FieldPage> {
                                 if (![
                                   ProfileFields.userType,
                                   ProfileFields.dob,
+                                  ProfileFields.firstName,
                                   ProfileFields.country,
                                   ProfileFields.state,
                                   ProfileFields.board,
@@ -230,7 +262,27 @@ class _FieldPageState extends State<FieldPage> {
                                   BlocProvider.of<ProfileBloc>(context).add(
                                     ChangeProfileEvent(
                                       widget.field,
-                                      controller.text,
+                                      defaultController.text,
+                                    ),
+                                  );
+                                } else if (widget.field ==
+                                    ProfileFields.firstName) {
+                                  BlocProvider.of<ProfileBloc>(context).add(
+                                    ChangeProfileEvent(
+                                      ProfileFields.firstName,
+                                      defaultController.text,
+                                    ),
+                                  );
+                                  BlocProvider.of<ProfileBloc>(context).add(
+                                    ChangeProfileEvent(
+                                      ProfileFields.middleName,
+                                      middleNameController.text,
+                                    ),
+                                  );
+                                  BlocProvider.of<ProfileBloc>(context).add(
+                                    ChangeProfileEvent(
+                                      ProfileFields.lastName,
+                                      lastNameController.text,
                                     ),
                                   );
                                 }
@@ -240,6 +292,7 @@ class _FieldPageState extends State<FieldPage> {
                                   curve: Curves.easeIn,
                                 );
                               }
+                              debugPrint('inavlid');
                             },
                           );
                   },

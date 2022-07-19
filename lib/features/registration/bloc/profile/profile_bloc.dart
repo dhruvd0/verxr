@@ -5,8 +5,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/foundation.dart';
 import 'package:verxr/config/common/dio.dart';
 import 'package:verxr/config/common/toast.dart';
 import 'package:verxr/constants/profile_fields.dart';
@@ -40,6 +39,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ) async {
     try {
       final profile = event.profile;
+      log(profile.toString());
       if (authBloc.firebaseAuth is! MockFirebaseAuth) {
         try {
           final credential = EmailAuthProvider.credential(
@@ -51,12 +51,13 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           await authBloc.firebaseAuth.currentUser!
               .linkWithCredential(credential);
         } on FirebaseAuthException catch (e) {
-          // TODO
           if (e.code != 'provider-already-linked') {
             showToast(e.message.toString());
-            log(e.message.toString());
+
             emit(EditProfileState(event.profile));
-            return;
+            if (kDebugMode) {
+              throw Exception(e.message.toString());
+            }
           }
         }
       }

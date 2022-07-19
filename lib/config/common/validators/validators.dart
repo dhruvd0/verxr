@@ -15,7 +15,7 @@ String? phoneValidator(String? s) {
 }
 
 String? nameValidator(String? s) {
-  return validator.name(s ?? '') ? null : 'Invalid Name';
+  return (s ?? '').isNotEmpty ? null : 'Invalid Name';
 }
 
 String? otpValidator(String? s) {

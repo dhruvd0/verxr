@@ -28,8 +28,6 @@ class RegistrationPageHandlerCubit extends Cubit<RegistrationPageHandlerState> {
         case UserType.Individual:
           fields.addAll([
             ProfileFields.firstName,
-            ProfileFields.middleName,
-            ProfileFields.lastName,
             ProfileFields.dob,
           ]);
           break;
