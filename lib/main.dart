@@ -15,6 +15,7 @@ import 'package:verxr/features/registration/controller/profile_api_controller.da
 import 'package:verxr/features/registration/widgets/registration_page.dart';
 import 'package:verxr/firebase_options.dart';
 import 'package:verxr/config/common/dio.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 void main({FirebaseAuth? firebaseAuth}) async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -77,10 +78,39 @@ class _SplashState extends State<Splash> {
     BlocProvider.of<AuthBloc>(context).add(CheckLoginEvent());
   }
 
+  Future<void> precacheImages() async {
+    List<String> imageList = [
+      "splash.png",
+      "logo.png",
+      "Individual.png",
+      "Group.png",
+      "Institution.png"
+    ];
+
+    await Future.wait(
+      imageList.map(
+        (e) => precacheImage(
+          Image.asset(
+            'assets/$e',
+            key: ValueKey(e),
+          ).image,
+          context,
+        ),
+      ),
+    );
+  }
+
+  @override
+  void didChangeDependencies() {
+    precacheImages();
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<ProfileBloc, ProfileState>(
       listener: (context, profileState) {
+        
         if (profileState is FetchedProfileState) {
           Navigator.pushReplacementNamed(
             context,
@@ -115,7 +145,7 @@ class _SplashState extends State<Splash> {
           child: Center(
             child: Container(
               padding: const EdgeInsets.all(50),
-              child: Image.asset('assets/logo.png'),
+              child: Image.asset('assets/splash.png'),
             ),
           ),
         ),

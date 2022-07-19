@@ -1,9 +1,13 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:verxr/config/common/toast.dart';
 import 'package:verxr/config/common/validators/validators.dart';
+import 'package:verxr/config/common/widgets/big_image.dart';
 import 'package:verxr/config/common/widgets/rounded_green_button.dart';
 import 'package:verxr/config/common/widgets/rounded_text_field.dart';
 import 'package:verxr/config/theme.dart';
@@ -163,7 +167,7 @@ class _FieldPageState extends State<FieldPage> {
                       ?.copyWith(color: AppColors.lightGray()),
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 5,
                 ),
                 Text(
                   widget.field == ProfileFields.password
@@ -173,19 +177,17 @@ class _FieldPageState extends State<FieldPage> {
                           : 'Your ${widget.field.name.capitalize()}',
                   style: getTextTheme(context).headline4,
                 ),
-                const SizedBox(
-                  height: 50,
-                ),
-                KeyboardVisibilityBuilder(
-                  builder: (context, isKeyboardVisible) {
-                    return SizedBox(
-                      height: isKeyboardVisible
-                          ? MediaQuery.of(context).size.height *
-                              (widget.field == ProfileFields.password
-                                  ? 50
-                                  : 150) /
-                              830
-                          : MediaQuery.of(context).size.height * 200 / 830,
+                BlocBuilder<ProfileBloc, ProfileState>(
+                  builder: (context, profileState) {
+                    return BigAnimatedIllustration(
+                      asset: state.currentPageIndex == 0
+                          ? 'assets/splash.png'
+                          : 'assets/${profileState is EditProfileState ? profileState.profile.userType.name : 'splash'}.png',
+                      collapseFactor: widget.field == ProfileFields.firstName ||
+                              widget.field == ProfileFields.password
+                          ? 2.6
+                          : 1.5,
+                      height: 300,
                     );
                   },
                 ),
@@ -211,10 +213,32 @@ class _FieldPageState extends State<FieldPage> {
                           const SizedBox(
                             width: 5,
                           ),
-                          Text(
-                            'I agree to the terms and conditions.',
-                            style: getTextTheme(context).bodyText2,
-                          )
+                          Text.rich(
+                            TextSpan(
+                              style: TextStyle(
+                                fontSize: 27,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: 'I agree to the ',
+                                  style: getTextTheme(context).bodyText2,
+                                ),
+                                TextSpan(
+                                  style: getTextTheme(context)
+                                      .bodyText2
+                                      ?.copyWith(color: Colors.blue),
+                                  //make link blue and underline
+                                  text: "terms and conditions.",
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () async {
+                                      launchUrlString("http://verxr.io/about/");
+                                    },
+                                ),
+
+                                //more text paragraph, sentences here.
+                              ],
+                            ),
+                          ),
                         ],
                       )
                     : const SizedBox(),

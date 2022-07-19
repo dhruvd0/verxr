@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:verxr/config/common/toast.dart';
 import 'package:verxr/config/common/validators/validators.dart';
+import 'package:verxr/config/common/widgets/big_image.dart';
 import 'package:verxr/config/common/widgets/rounded_green_button.dart';
 import 'package:verxr/config/common/widgets/rounded_text_field.dart';
 import 'package:verxr/config/theme.dart';
@@ -58,8 +60,12 @@ class EmailLoginPage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const SizedBox(
+                        BigAnimatedIllustration(
                           height: 350,
+                          collapseFactor: 2,
+                          asset:"assets/splash.png"),
+                        SizedBox(
+                          height: 5,
                         ),
                         Text(
                           'Welcome Back',

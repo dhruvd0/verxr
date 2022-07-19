@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:verxr/config/common/toast.dart';
 import 'package:verxr/config/common/validators/validators.dart';
+import 'package:verxr/config/common/widgets/big_image.dart';
 import 'package:verxr/config/common/widgets/rounded_green_button.dart';
 import 'package:verxr/config/common/widgets/rounded_text_field.dart';
 import 'package:verxr/config/theme.dart';
@@ -71,9 +72,10 @@ class PhoneAuthPage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const SizedBox(
-                          height: 350,
-                        ),
+                       BigAnimatedIllustration(
+                        height: 400,
+                        collapseFactor: state is CodeSentState?1.7:1.5,
+                        asset: "assets/splash.png"),
                         Text(
                           'Sign Up',
                           style: getTextTheme(context).headline4,

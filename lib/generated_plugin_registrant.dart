@@ -11,6 +11,7 @@ import 'package:firebase_core_web/firebase_core_web.dart';
 import 'package:firebase_remote_config_web/firebase_remote_config_web.dart';
 import 'package:flutter_keyboard_visibility_web/flutter_keyboard_visibility_web.dart';
 import 'package:fluttertoast/fluttertoast_web.dart';
+import 'package:url_launcher_web/url_launcher_web.dart';
 
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
@@ -21,5 +22,6 @@ void registerPlugins(Registrar registrar) {
   FirebaseRemoteConfigWeb.registerWith(registrar);
   FlutterKeyboardVisibilityPlugin.registerWith(registrar);
   FluttertoastWebPlugin.registerWith(registrar);
+  UrlLauncherPlugin.registerWith(registrar);
   registrar.registerMessageHandler();
 }
