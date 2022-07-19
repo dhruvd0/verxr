@@ -231,7 +231,7 @@ class _FieldPageState extends State<FieldPage> {
                                   text: "terms and conditions.",
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () async {
-                                      launchUrlString("http://verxr.io/about/");
+                                      launchUrlString("http://verxr.io/about/",mode: LaunchMode.externalApplication);
                                     },
                                 ),
 
