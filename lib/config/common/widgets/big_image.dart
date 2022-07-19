@@ -5,7 +5,8 @@ class BigAnimatedIllustration extends StatelessWidget {
   const BigAnimatedIllustration({
     Key? key,
     required this.asset,
-    required this.collapseFactor, required this.height,
+    required this.collapseFactor,
+    required this.height,
   }) : super(key: key);
   final String asset;
   final double collapseFactor;
@@ -17,15 +18,20 @@ class BigAnimatedIllustration extends StatelessWidget {
         return Column(
           children: [
             SizedBox(
-              height: 50/collapseFactor,
+              height: 50 / collapseFactor,
             ),
             AnimatedContainer(
               curve: Curves.easeIn,
-              duration: Duration(milliseconds: 200),
+              duration: const Duration(milliseconds: 200),
               height: isKeyboardVisible
-                  ? MediaQuery.of(context).size.height * (height/collapseFactor) / 830
+                  ? MediaQuery.of(context).size.height *
+                      (height / collapseFactor) /
+                      830
                   : MediaQuery.of(context).size.height * height / 830,
-              child: Image.asset(asset,key: ValueKey(asset),),
+              child: Image.asset(
+                asset,
+                key: ValueKey(asset),
+              ),
             ),
           ],
         );

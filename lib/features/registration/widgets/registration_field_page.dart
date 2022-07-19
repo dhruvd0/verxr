@@ -1,9 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_switch/flutter_switch.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:verxr/config/common/toast.dart';
 import 'package:verxr/config/common/validators/validators.dart';
@@ -215,7 +213,7 @@ class _FieldPageState extends State<FieldPage> {
                           ),
                           Text.rich(
                             TextSpan(
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 27,
                               ),
                               children: [
@@ -231,7 +229,8 @@ class _FieldPageState extends State<FieldPage> {
                                   text: "terms and conditions.",
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () async {
-                                      launchUrlString("http://verxr.io/about/",mode: LaunchMode.externalApplication);
+                                      launchUrlString("http://verxr.io/about/",
+                                          mode: LaunchMode.externalApplication);
                                     },
                                 ),
 
@@ -316,7 +315,7 @@ class _FieldPageState extends State<FieldPage> {
                                   curve: Curves.easeIn,
                                 );
                               }
-                              debugPrint('inavlid');
+                              
                             },
                           );
                   },

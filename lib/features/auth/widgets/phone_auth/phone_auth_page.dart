@@ -72,10 +72,11 @@ class PhoneAuthPage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                       BigAnimatedIllustration(
-                        height: 400,
-                        collapseFactor: state is CodeSentState?1.7:1.5,
-                        asset: "assets/splash.png"),
+                        BigAnimatedIllustration(
+                          height: 400,
+                          collapseFactor: state is CodeSentState ? 1.7 : 1.5,
+                          asset: "assets/splash.png",
+                        ),
                         Text(
                           'Sign Up',
                           style: getTextTheme(context).headline4,

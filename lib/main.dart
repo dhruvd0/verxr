@@ -15,7 +15,6 @@ import 'package:verxr/features/registration/controller/profile_api_controller.da
 import 'package:verxr/features/registration/widgets/registration_page.dart';
 import 'package:verxr/firebase_options.dart';
 import 'package:verxr/config/common/dio.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 void main({FirebaseAuth? firebaseAuth}) async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -110,7 +109,6 @@ class _SplashState extends State<Splash> {
   Widget build(BuildContext context) {
     return BlocListener<ProfileBloc, ProfileState>(
       listener: (context, profileState) {
-        
         if (profileState is FetchedProfileState) {
           Navigator.pushReplacementNamed(
             context,

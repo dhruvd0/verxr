@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:verxr/config/common/toast.dart';
 import 'package:verxr/config/common/validators/validators.dart';
 import 'package:verxr/config/common/widgets/big_image.dart';
@@ -60,11 +59,12 @@ class EmailLoginPage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        BigAnimatedIllustration(
+                        const BigAnimatedIllustration(
                           height: 350,
                           collapseFactor: 2,
-                          asset:"assets/splash.png"),
-                        SizedBox(
+                          asset: "assets/splash.png",
+                        ),
+                        const SizedBox(
                           height: 5,
                         ),
                         Text(
