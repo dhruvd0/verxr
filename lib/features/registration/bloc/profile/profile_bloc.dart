@@ -54,7 +54,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           if (e.code != 'provider-already-linked') {
             showToast(e.message.toString());
 
-            emit(EditProfileState(event.profile));
+            emit(UnregisteredProfileState(event.profile));
             if (kDebugMode) {
               throw Exception(e.message.toString());
             }
@@ -83,23 +83,27 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           emit(ProfileErrorState(e.response!.data['error']));
         }
       }
-      emit(EditProfileState(event.profile));
+      emit(UnregisteredProfileState(event.profile));
       showToast(e.message);
     }
   }
 
   void _onEditNewProfile(EditNewProfileEvent event, Emitter emit) {
-    emit(EditProfileState(Profile.fromMap(event.userType.name, const {})));
-    assert(state is EditProfileState);
+    emit(
+      UnregisteredProfileState(
+        Profile.fromMap(event.userType.name, const {}),
+      ),
+    );
+    assert(state is UnregisteredProfileState);
   }
 
   void _onChangeProfile(
     ChangeProfileEvent changeProfileEvent,
     Emitter emit,
   ) {
-    var createProfileState = state is EditProfileState
-        ? state as EditProfileState
-        : (EditProfileState(IndividualProfile.fromMap(const {})));
+    var createProfileState = state is UnregisteredProfileState
+        ? state as UnregisteredProfileState
+        : (UnregisteredProfileState(IndividualProfile.fromMap(const {})));
 
     var profile = createProfileState.profile;
     var map = profile.toMap();
@@ -111,7 +115,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           : profile.userType.name,
       map,
     );
-    emit(EditProfileState(profile));
+    emit(UnregisteredProfileState(profile));
   }
 
   Future<String?> getJWT(Emitter emit) async {
@@ -129,7 +133,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       }
     } on DioError catch (e) {
       log(e.toString());
-      emit(ProfileErrorState('Not Registered'));
+      emit(UnregisteredProfileState(Profile.fromMap('Individual', const {})));
     }
     return null;
   }
@@ -142,7 +146,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       emit(ProfileLoadingState());
       final token = await getJWT(emit);
       if (token == null) {
-        emit(ProfileErrorState('Not Registered'));
+        emit(UnregisteredProfileState(Profile.fromMap('Individual', const {})));
         return;
       }
       dio.options.headers = {'Authorization': 'Bearer $token'};

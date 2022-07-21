@@ -16,7 +16,7 @@ import 'package:verxr/features/registration/widgets/registration_page.dart';
 import 'package:verxr/firebase_options.dart';
 import 'package:verxr/config/common/dio.dart';
 
-void main({FirebaseAuth? firebaseAuth}) async {
+Future<void> main({FirebaseAuth? firebaseAuth}) async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -73,7 +73,7 @@ class _SplashState extends State<Splash> {
     checkLogin();
   }
 
-  void checkLogin() {
+  void checkLogin() async {
     BlocProvider.of<AuthBloc>(context).add(CheckLoginEvent());
   }
 
@@ -109,12 +109,13 @@ class _SplashState extends State<Splash> {
   Widget build(BuildContext context) {
     return BlocListener<ProfileBloc, ProfileState>(
       listener: (context, profileState) {
+        debugPrint(profileState.toString());
         if (profileState is FetchedProfileState) {
           Navigator.pushReplacementNamed(
             context,
             HomePage.routeName,
           );
-        } else if (profileState is EditProfileState) {
+        } else if (profileState is UnregisteredProfileState) {
           Navigator.pushReplacementNamed(
             context,
             RegistrationPage.routeName,
@@ -126,7 +127,7 @@ class _SplashState extends State<Splash> {
       child: Scaffold(
         backgroundColor: Colors.white,
         body: BlocListener<AuthBloc, AuthState>(
-          listener: (context, state) {
+          listener: (context, state) async {
             if (state is LogOutAuthState) {
               Navigator.pushReplacementNamed(context, EmailLoginPage.routeName);
             } else if (state is SuccessAuthState) {

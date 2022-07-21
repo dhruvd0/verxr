@@ -93,6 +93,7 @@ class PhoneAuthPage extends StatelessWidget {
                         ),
                         RoundedTextField(
                           hintText: 'Phone',
+                          key: const ValueKey('phone-text-field'),
                           textInputType: TextInputType.phone,
                           controller: phoneNumberController,
                           validator: phoneValidator,

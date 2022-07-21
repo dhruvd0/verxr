@@ -14,14 +14,14 @@ class ChooseUserTypeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<ProfileBloc, ProfileState>(
       listener: (_, state) {
-        if (state is! EditProfileState) {
+        if (state is! UnregisteredProfileState) {
           BlocProvider.of<ProfileBloc>(context, listen: false).add(
             ChangeProfileEvent(ProfileFields.userType, UserType.Individual),
           );
         }
       },
       builder: (context, state) {
-        return state is! EditProfileState
+        return state is! UnregisteredProfileState
             ? Container()
             : Column(
                 children: List.generate(3, (index) {

@@ -12,9 +12,9 @@ class AuthenticatedProfileState extends ProfileState {
 }
 
 /// State for Registration Page
-class EditProfileState extends ProfileState {
+class UnregisteredProfileState extends ProfileState {
   final Profile profile;
-  EditProfileState(
+  UnregisteredProfileState(
     this.profile,
   );
 }

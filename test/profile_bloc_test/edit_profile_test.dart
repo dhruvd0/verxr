@@ -12,21 +12,25 @@ import 'package:verxr/models/profile/institution.dart';
 
 void main() {
   group('Edit Profile Tests:', () {
-    
     group('Change first Name', () {
       for (var type in UserType.values) {
         String name = 'firstName$type';
         blocTest<ProfileBloc, ProfileState>(
           '$type',
-          build: () => ProfileBloc(AuthBloc(mockAuth(),),
-              ProfileAPIController(),),
+          build: () => ProfileBloc(
+            AuthBloc(
+              mockAuth(),
+            ),
+            ProfileAPIController(),
+          ),
           act: (bloc) {
             bloc.add(EditNewProfileEvent(type));
             bloc.add(ChangeProfileEvent(ProfileFields.firstName, name));
           },
           verify: (bloc) {
-            expect(bloc.state, isA<EditProfileState>());
-            expect((bloc.state as EditProfileState).profile.firstName, name);
+            expect(bloc.state, isA<UnregisteredProfileState>());
+            expect((bloc.state as UnregisteredProfileState).profile.firstName,
+                name,);
           },
         );
       }
@@ -41,7 +45,8 @@ void main() {
       },
       verify: (bloc) {
         expect(
-          ((bloc.state as EditProfileState).profile as GroupProfile).board,
+          ((bloc.state as UnregisteredProfileState).profile as GroupProfile)
+              .board,
           'test_board',
         );
       },
@@ -56,7 +61,8 @@ void main() {
       },
       verify: (bloc) {
         expect(
-          ((bloc.state as EditProfileState).profile as InstitutionProfile)
+          ((bloc.state as UnregisteredProfileState).profile
+                  as InstitutionProfile)
               .telephone,
           '111',
         );
@@ -65,7 +71,9 @@ void main() {
   });
 }
 
-MockFirebaseAuth mockAuth([String? uid]) {
+MockFirebaseAuth mockAuth([
+  String? uid,
+]) {
   uid = uid ?? const Uuid().v4();
   var phone = '+91$uid';
   var email = '$uid@gmail.com';

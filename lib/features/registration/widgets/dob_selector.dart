@@ -14,7 +14,8 @@ class DobSelector extends StatelessWidget {
     return BlocBuilder<ProfileBloc, ProfileState>(
       builder: (context, state) {
         var dob =
-            ((state as EditProfileState).profile as IndividualProfile).dob;
+            ((state as UnregisteredProfileState).profile as IndividualProfile)
+                .dob;
         dobController = TextEditingController(
           text: DateTime.tryParse(dob) == null
               ? ''
@@ -23,6 +24,7 @@ class DobSelector extends StatelessWidget {
         );
 
         return GestureDetector(
+          key: const ValueKey('dob-selector'),
           onTap: () {
             showDatePicker(
               context: context,

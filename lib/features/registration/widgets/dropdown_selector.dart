@@ -25,7 +25,7 @@ class DropdownSelector extends StatelessWidget {
       child: BlocBuilder<ProfileBloc, ProfileState>(
         builder: (context, state) {
           var selectedVal =
-              (state as EditProfileState).profile.toMap()[fields.name];
+              (state as UnregisteredProfileState).profile.toMap()[fields.name];
 
           return DropdownButton<String>(
             isExpanded: true,

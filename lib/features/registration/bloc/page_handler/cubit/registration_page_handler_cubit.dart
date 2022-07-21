@@ -21,7 +21,7 @@ class RegistrationPageHandlerCubit extends Cubit<RegistrationPageHandlerState> {
     });
   }
   void userTypeHandler(ProfileState profileState) {
-    if (profileState is EditProfileState) {
+    if (profileState is UnregisteredProfileState) {
       var fields = [ProfileFields.userType];
 
       switch (profileState.profile.userType) {

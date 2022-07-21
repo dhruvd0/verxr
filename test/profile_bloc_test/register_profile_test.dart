@@ -1,4 +1,3 @@
-
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -63,11 +62,11 @@ void main() {
 
         return mockProfileBloc;
       },
-      seed: () => EditProfileState(fakeProfile),
+      seed: () => UnregisteredProfileState(fakeProfile),
       act: (bloc) {
         bloc.add(
           RegisterProfileEvent(
-            (bloc.state as EditProfileState).profile,
+            (bloc.state as UnregisteredProfileState).profile,
             const Uuid().v4(),
           ),
         );
@@ -89,12 +88,12 @@ void main() {
       },
       seed: () {
         fakeProfile = fakeProfile.copyWith(dob: '');
-        return EditProfileState(fakeProfile);
+        return UnregisteredProfileState(fakeProfile);
       },
       act: (bloc) {
         bloc.add(
           RegisterProfileEvent(
-            (bloc.state as EditProfileState).profile,
+            (bloc.state as UnregisteredProfileState).profile,
             const Uuid().v4(),
           ),
         );

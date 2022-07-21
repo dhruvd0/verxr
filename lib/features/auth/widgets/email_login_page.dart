@@ -30,7 +30,7 @@ class EmailLoginPage extends StatelessWidget {
                 context,
                 HomePage.routeName,
               );
-            } else if (profileState is EditProfileState) {
+            } else if (profileState is UnregisteredProfileState) {
               showToast('Profile is not Registered');
             } else if (profileState is ProfileErrorState) {
               showToast(profileState.errorMessage.toString());

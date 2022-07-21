@@ -58,7 +58,7 @@ class _FieldPageState extends State<FieldPage> {
     ProfileFields field,
     BuildContext context,
   ) {
-    if (field != ProfileFields.password) {
+    if (field != ProfileFields.password && field != ProfileFields.firstName) {
       defaultController.text = getEnteredFieldValue(context, field);
     }
 
@@ -69,6 +69,7 @@ class _FieldPageState extends State<FieldPage> {
         return Column(
           children: [
             RoundedTextField(
+              key: const ValueKey('first-name-text-field'),
               controller: defaultController,
               hintText: 'First Name',
               validator: (string) {
@@ -83,6 +84,7 @@ class _FieldPageState extends State<FieldPage> {
               },
             ),
             RoundedTextField(
+              key: const ValueKey('last-name-text-field'),
               controller: lastNameController,
               hintText: 'Last Name',
               validator: (string) {
@@ -119,7 +121,7 @@ class _FieldPageState extends State<FieldPage> {
 
   String getEnteredFieldValue(BuildContext context, ProfileFields field) {
     var state = BlocProvider.of<ProfileBloc>(context).state;
-    if (state is! EditProfileState) {
+    if (state is! UnregisteredProfileState) {
       return '';
     }
     var map = (state).profile.toMap();
@@ -129,6 +131,7 @@ class _FieldPageState extends State<FieldPage> {
 
   RoundedTextField _textFieldForEmail(ProfileFields field) {
     return RoundedTextField(
+      key: const ValueKey('email-text-field'),
       controller: defaultController,
       hintText: field.name.capitalize(),
       validator: (string) {
@@ -180,7 +183,7 @@ class _FieldPageState extends State<FieldPage> {
                     return BigAnimatedIllustration(
                       asset: state.currentPageIndex == 0
                           ? 'assets/splash.png'
-                          : 'assets/${profileState is EditProfileState ? profileState.profile.userType.name : 'splash'}.png',
+                          : 'assets/${profileState is UnregisteredProfileState ? profileState.profile.userType.name : 'splash'}.png',
                       collapseFactor: widget.field == ProfileFields.firstName ||
                               widget.field == ProfileFields.password
                           ? 2.6
@@ -229,8 +232,10 @@ class _FieldPageState extends State<FieldPage> {
                                   text: "terms and conditions.",
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () async {
-                                      launchUrlString("http://verxr.io/about/",
-                                          mode: LaunchMode.externalApplication);
+                                      launchUrlString(
+                                        "http://verxr.io/about/",
+                                        mode: LaunchMode.externalApplication,
+                                      );
                                     },
                                 ),
 
@@ -267,7 +272,8 @@ class _FieldPageState extends State<FieldPage> {
                                     .requestFocus(FocusNode());
                                 BlocProvider.of<ProfileBloc>(context).add(
                                   RegisterProfileEvent(
-                                    (profileState as EditProfileState).profile,
+                                    (profileState as UnregisteredProfileState)
+                                        .profile,
                                     confirmPasswordController.text,
                                   ),
                                 );
@@ -315,7 +321,6 @@ class _FieldPageState extends State<FieldPage> {
                                   curve: Curves.easeIn,
                                 );
                               }
-                              
                             },
                           );
                   },

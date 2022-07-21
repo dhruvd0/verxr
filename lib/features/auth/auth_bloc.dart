@@ -91,6 +91,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) async {
     try {
       emit(LoadingAuthState());
+
       if (firebaseAuth.currentUser != null) {
         emit(SuccessAuthState());
       } else {

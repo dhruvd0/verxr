@@ -16,6 +16,7 @@ class ConfirmPasswordField extends StatelessWidget {
     return Column(
       children: [
         RoundedTextField(
+          key: const ValueKey('password-text-field'),
           controller: passwordController,
           obscureText: true,
           hintText: 'Password',
@@ -24,6 +25,7 @@ class ConfirmPasswordField extends StatelessWidget {
           },
         ),
         RoundedTextField(
+          key: const ValueKey('confirm-password-text-field'),
           controller: confirmPasswordController,
           obscureText: true,
           hintText: 'Confirm Password',
