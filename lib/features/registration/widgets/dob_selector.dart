@@ -6,6 +6,7 @@ import 'package:verxr/constants/profile_fields.dart';
 import 'package:verxr/features/registration/bloc/profile/profile_bloc.dart';
 import 'package:verxr/models/profile/individual.dart';
 
+// ignore: must_be_immutable
 class DobSelector extends StatelessWidget {
   DobSelector({Key? key}) : super(key: key);
   var dobController = TextEditingController();

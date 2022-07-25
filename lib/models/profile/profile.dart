@@ -16,6 +16,7 @@ abstract class Profile extends Equatable {
     required this.uid,
     required this.userType,
   });
+  String getAssetPathForUser() => 'assets/${userType.name}.png';
 
   ///
   factory Profile.fromMap(String userType, Map<String, dynamic> map) {

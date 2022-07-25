@@ -18,7 +18,7 @@ MockFirebaseAuth mockAuth([
   return MockFirebaseAuth(
     signedIn: true,
     mockUser: MockUser(
-      uid: uid ?? '' '12',
+      uid: uid,
       phoneNumber: phone,
       email: email,
     ),

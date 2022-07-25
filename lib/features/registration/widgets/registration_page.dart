@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:verxr/config/common/back_button.dart';
 import 'package:verxr/features/auth/widgets/phone_auth/phone_auth_page.dart';
-import 'package:verxr/features/home/widgets/home_page.dart';
+import 'package:verxr/features/dashboard/widgets/dashboard_page.dart';
 import 'package:verxr/features/registration/bloc/page_handler/cubit/registration_page_handler_cubit.dart';
 import 'package:verxr/features/registration/bloc/page_handler/cubit/registration_page_handler_state.dart';
 import 'package:verxr/features/registration/bloc/profile/profile_bloc.dart';
@@ -54,7 +54,7 @@ class RegistrationPage extends StatelessWidget {
                 if (state is FetchedProfileState) {
                   Navigator.pushReplacementNamed(
                     context,
-                    HomePage.routeName,
+                    DashboardPage.routeName,
                   );
                 }
               },

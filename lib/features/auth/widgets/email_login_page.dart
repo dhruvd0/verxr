@@ -8,7 +8,7 @@ import 'package:verxr/config/common/widgets/rounded_text_field.dart';
 import 'package:verxr/config/theme.dart';
 import 'package:verxr/features/auth/auth_bloc.dart';
 import 'package:verxr/features/auth/widgets/phone_auth/phone_auth_page.dart';
-import 'package:verxr/features/home/widgets/home_page.dart';
+import 'package:verxr/features/dashboard/widgets/dashboard_page.dart';
 import 'package:verxr/features/registration/bloc/profile/profile_bloc.dart';
 
 class EmailLoginPage extends StatelessWidget {
@@ -28,7 +28,7 @@ class EmailLoginPage extends StatelessWidget {
             if (profileState is FetchedProfileState) {
               Navigator.pushReplacementNamed(
                 context,
-                HomePage.routeName,
+                DashboardPage.routeName,
               );
             } else if (profileState is UnregisteredProfileState) {
               showToast('Profile is not Registered');

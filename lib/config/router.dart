@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:verxr/features/auth/widgets/phone_auth/phone_auth_page.dart';
 import 'package:verxr/features/auth/widgets/email_login_page.dart';
-import 'package:verxr/features/home/widgets/home_page.dart';
+import 'package:verxr/features/dashboard/widgets/dashboard_page.dart';
 import 'package:verxr/features/registration/widgets/registration_page.dart';
 import 'package:verxr/main.dart';
 
@@ -15,8 +15,8 @@ Route onGenerateRoute(RouteSettings settings) {
     case EmailLoginPage.routeName:
       widget = EmailLoginPage();
       break;
-    case HomePage.routeName:
-      widget = const HomePage();
+    case DashboardPage.routeName:
+      widget = const DashboardPage();
       break;
     case Splash.routeName:
       widget = const Splash();

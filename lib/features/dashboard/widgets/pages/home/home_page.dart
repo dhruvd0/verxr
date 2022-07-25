@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
-import 'package:verxr/config/common/widgets/rounded_green_button.dart';
+import 'package:verxr/config/common/widgets/big_image.dart';
 import 'package:verxr/config/theme.dart';
 import 'package:verxr/features/auth/auth_bloc.dart';
 import 'package:verxr/features/auth/widgets/email_login_page.dart';
+import 'package:verxr/features/dashboard/widgets/pages/home/home_content_widget.dart';
 import 'package:verxr/features/registration/bloc/profile/profile_bloc.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
-  static const String routeName = 'homePage';
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -23,7 +24,7 @@ class HomePage extends StatelessWidget {
           child: BlocBuilder<ProfileBloc, ProfileState>(
             builder: (context, state) {
               return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const SizedBox(
                     height: 10,
@@ -73,17 +74,21 @@ class HomePage extends StatelessWidget {
                       ],
                     ),
                   ),
+                  BlocBuilder<ProfileBloc, ProfileState>(
+                    builder: (context, state) {
+                      return BigAnimatedIllustration(
+                        asset: state is FetchedProfileState
+                            ? state.profile.getAssetPathForUser()
+                            : 'assets/splash.png',
+                        collapseFactor: 1,
+                        height: 137,
+                      );
+                    },
+                  ),
                   const SizedBox(
-                    height: 200,
+                    height: 27,
                   ),
-                  Center(
-                    child: RoundedTextButton(
-                      text: 'Logout',
-                      onTap: () {
-                        BlocProvider.of<AuthBloc>(context).add(LogOutEvent());
-                      },
-                    ),
-                  ),
+                  const Flexible(child: HomeContent()),
                 ],
               );
             },

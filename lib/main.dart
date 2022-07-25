@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:verxr/config/router.dart';
 import 'package:verxr/config/theme.dart';
 import 'package:verxr/features/auth/auth_bloc.dart';
-import 'package:verxr/features/home/widgets/home_page.dart';
+import 'package:verxr/features/dashboard/widgets/dashboard_page.dart';
 import 'package:verxr/features/registration/bloc/page_handler/cubit/registration_page_handler_cubit.dart';
 import 'package:verxr/features/registration/bloc/profile/profile_bloc.dart';
 import 'package:verxr/features/auth/widgets/email_login_page.dart';
@@ -113,7 +113,7 @@ class _SplashState extends State<Splash> {
         if (profileState is FetchedProfileState) {
           Navigator.pushReplacementNamed(
             context,
-            HomePage.routeName,
+            DashboardPage.routeName,
           );
         } else if (profileState is UnregisteredProfileState) {
           Navigator.pushReplacementNamed(

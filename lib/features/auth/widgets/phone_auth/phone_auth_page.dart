@@ -10,7 +10,7 @@ import 'package:verxr/constants/profile_fields.dart';
 import 'package:verxr/constants/user_types.dart';
 import 'package:verxr/features/auth/auth_bloc.dart';
 import 'package:verxr/features/auth/widgets/email_login_page.dart';
-import 'package:verxr/features/home/widgets/home_page.dart';
+import 'package:verxr/features/dashboard/widgets/dashboard_page.dart';
 import 'package:verxr/features/registration/bloc/profile/profile_bloc.dart';
 import 'package:verxr/features/registration/widgets/registration_page.dart';
 
@@ -35,7 +35,7 @@ class PhoneAuthPage extends StatelessWidget {
               if (profileState is FetchedProfileState) {
                 Navigator.pushReplacementNamed(
                   context,
-                  HomePage.routeName,
+                  DashboardPage.routeName,
                 );
               } else if (profileState is ProfileErrorState) {
                 BlocProvider.of<ProfileBloc>(context, listen: false).add(

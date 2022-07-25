@@ -14,6 +14,7 @@ class AuthenticatedProfileState extends ProfileState {
 /// State for Registration Page
 class UnregisteredProfileState extends ProfileState {
   final Profile profile;
+  String getAssetPathForUser() => 'assets/${profile.userType.name}.png';
   UnregisteredProfileState(
     this.profile,
   );
@@ -23,6 +24,7 @@ class UnregisteredProfileState extends ProfileState {
 class FetchedProfileState extends ProfileState {
   final Profile profile;
   final String token;
+
   FetchedProfileState(this.profile, this.token);
 }
 
