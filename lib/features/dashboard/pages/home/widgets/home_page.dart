@@ -5,7 +5,8 @@ import 'package:verxr/config/common/widgets/big_image.dart';
 import 'package:verxr/config/theme.dart';
 import 'package:verxr/features/auth/auth_bloc.dart';
 import 'package:verxr/features/auth/widgets/email_login_page.dart';
-import 'package:verxr/features/dashboard/widgets/pages/home/home_content_widget.dart';
+import 'package:verxr/features/dashboard/pages/home/widgets/home_content_widget.dart';
+import 'package:verxr/features/dashboard/pages/home/widgets/home_content_widget.dart';
 import 'package:verxr/features/registration/bloc/profile/profile_bloc.dart';
 
 class HomePage extends StatelessWidget {

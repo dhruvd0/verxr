@@ -15,7 +15,7 @@ var _authBloc = AuthBloc(mockAuth());
 
 class MockProfileAPIController extends Mock implements ProfileAPIController {
   @override
-  Future<Response> callRegisterAPI(Map<String, dynamic> map) async {
+  Future<Response> registerAPI(Map<String, dynamic> map) async {
     int statusCode = 200;
     dynamic data = {};
 

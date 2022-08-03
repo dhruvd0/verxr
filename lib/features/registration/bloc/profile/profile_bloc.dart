@@ -65,7 +65,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       map['uid'] = authBloc.firebaseAuth.currentUser!.uid;
       map['phone'] = authBloc.firebaseAuth.currentUser!.phoneNumber;
       map.remove('password');
-      var response = await profileAPIController.callRegisterAPI(map);
+      var response = await profileAPIController.registerAPI(map);
       var responseData = (response.data);
       if (response.statusCode != 200) {
         emit(ProfileErrorState(responseData['error']));
@@ -159,6 +159,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
         var profileMap = body['data'];
         final profile = Profile.fromMap(profileMap['userType'], profileMap);
+      
         emit(FetchedProfileState(profile, token));
       } else {
         emit(ProfileErrorState(response));

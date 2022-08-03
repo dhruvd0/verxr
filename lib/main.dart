@@ -57,15 +57,21 @@ Future<void> setupNetworkConfig() async {
 }
 
 class Splash extends StatefulWidget {
-  static const String routeName = 'splash';
-
   const Splash({Key? key}) : super(key: key);
+
+  static const String routeName = 'splash';
 
   @override
   State<Splash> createState() => _SplashState();
 }
 
 class _SplashState extends State<Splash> {
+  @override
+  void didChangeDependencies() {
+    precacheImages();
+    super.didChangeDependencies();
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -97,12 +103,6 @@ class _SplashState extends State<Splash> {
         ),
       ),
     );
-  }
-
-  @override
-  void didChangeDependencies() {
-    precacheImages();
-    super.didChangeDependencies();
   }
 
   @override

@@ -5,9 +5,9 @@ import 'package:provider/provider.dart';
 import 'package:verxr/config/common/icons.dart';
 import 'package:verxr/config/theme.dart';
 import 'package:verxr/features/dashboard/navigation/provider/dashboard_nav_provider.dart';
-import 'package:verxr/features/dashboard/widgets/pages/home/home_page.dart';
-import 'package:verxr/features/dashboard/widgets/pages/profile/profile_page.dart';
-import 'package:verxr/features/dashboard/widgets/pages/settings/settings_page.dart';
+import 'package:verxr/features/dashboard/pages/home/widgets/home_page.dart';
+import 'package:verxr/features/dashboard/pages/profile/profile_page.dart';
+import 'package:verxr/features/dashboard/pages/settings/settings_page.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({Key? key}) : super(key: key);
